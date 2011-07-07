@@ -1,0 +1,179 @@
+#include <cog/vmath_base.h>
+
+#ifdef __SSE__
+
+namespace cog{
+  const float _SINCOSF_CC0 = -0.0013602249f;
+  const float _SINCOSF_CC1 =  0.0416566950f;
+  const float _SINCOSF_CC2 = -0.4999990225f;
+  const float _SINCOSF_SC0 = -0.0001950727f;
+  const float _SINCOSF_SC1 =  0.0083320758f;
+  const float _SINCOSF_SC2 = -0.1666665247f;
+  const float _SINCOSF_KC1 = 1.57079625129f;
+  const float _SINCOSF_KC2 = 7.54978995489e-8f;
+  
+  inline __m128 _mm_sel_ps(__m128 x, __m128 y, __m128 s)
+  {
+    __m128 mx = _mm_andnot_ps(s, x);
+    __m128 my = _mm_and_ps(s, y);
+    return _mm_or_ps(mx, my);
+  }
+  
+  inline __m128 _mm_signbit_ps(__m128 x)
+  {
+    __m128i xi = (__m128i) x;
+    return (__m128) _mm_srai_epi32(xi, 31);
+  }
+  
+  inline __m128 _mm_copysign_ps(__m128 x, __m128 y)
+  {
+    return _mm_sel_ps(x, y, _mm_set1_ps(-0.0f));
+  }
+  
+  inline vec_float _fill(float x)
+  {
+    return _mm_set1_ps(x);
+  }
+  
+}
+
+namespace cog{
+  
+  vec_float recip(vec_float x)
+  {
+    const __m128 one = _fill(1.0f);
+    const __m128 y0 = _mm_rcp_ps(x);
+    __m128 y = nmsub(x, y0, one);
+    y = madd(y, y0, y0);
+    return y;
+  }
+  
+  vec_float rsqrt(vec_float x)
+  {
+    const __m128 y0 = _mm_rsqrt_ps(x);
+    const __m128 y0x = mul(y0, x);
+    __m128 y0half = mul(y0, _fill(0.5f));
+    __m128 y1nmsub = nmsub(y0, y0x, _fill(1.0f));
+    __m128 y2madd = madd(y1nmsub, y0half, y0);
+    return y2madd;
+  }
+  
+  vec_float acos(vec_float x)
+  {
+    const __m128 select = (__m128)_mm_signbit_ps(x);
+    const __m128 xabs = abs(x);
+    
+    const __m128 t1 = sqrt(sub(_fill(1.0f), xabs));
+    
+    /* Instruction counts can be reduced if the polynomial was
+     * computed entirely from nested (dependent) fma's. However, 
+     * to reduce the number of pipeline stalls, the polygon is evaluated 
+     * in two halves (hi amd lo). 
+     */
+    const __m128 xabs2 = mul(xabs,  xabs);
+    const __m128 xabs4 = mul(xabs2, xabs2);
+    __m128 hi, lo;
+    hi = madd(_fill(-0.0012624911f) , xabs, _fill(0.0066700901f));
+    hi = madd(hi, xabs, _fill(-0.0170881256f));
+    hi = madd(hi, xabs, _fill( 0.0308918810f));
+    lo = madd(_fill(-0.0501743046f), xabs, _fill(0.0889789874f));
+    lo = madd(lo, xabs, _fill(-0.2145988016f));
+    lo = madd(lo, xabs, _fill( 1.5707963050f));
+    
+    __m128 result = madd(hi, xabs4, lo);
+    
+    // Adjust the result if x is negactive.
+    const __m128 neg = nmsub(t1, result, _fill(3.1415926535898f));
+    const __m128 pos = mul(t1, result);
+    
+    result = _mm_sel_ps(pos, neg, select);
+    
+    return result;
+  }
+  
+  vec_float floor(vec_float x)
+  {
+    const __m128 xacmp = (__m128)_mm_set1_epi32(0x4b000000);
+    const __m128 inrange = _mm_cmpgt_ps(xacmp, abs(x));
+    const __m128i xi = _mm_cvttps_epi32(x);
+    const __m128i xi1 = _mm_sub_epi32(xi, _mm_set1_epi32(1));
+    const __m128 truncated0 = _mm_sel_ps(x, _mm_cvtepi32_ps(xi), inrange);
+    const __m128 truncated1 = _mm_sel_ps(x, _mm_cvtepi32_ps(xi1), inrange);
+    const __m128 resel = _mm_cmpgt_ps(truncated0, x);
+    return _mm_sel_ps(truncated0, truncated1, resel);
+  }
+  
+  void _sincos(vec_float x, vec_float& s, vec_float& c)
+  {
+    __m128 xl;
+    __m128 ts, tc, sx, cx;
+    
+    // Range reduction using : xl = angle * TwoOverPi;
+    xl = mul(x, _fill( 0.63661977236f) );
+    xl = add(xl, _mm_copysign_ps( _fill(0.5f), xl) );
+    
+    // Find the quadrant the angle falls in
+    // using:  q = (int) (ceil(abs(xl))*sign(xl))
+    const __m128i q = _mm_cvttps_epi32(xl);
+    
+    // Compute the offset based on the quadrant that the angle falls in.
+    // Add 1 to the offset for the cosine. 
+    const __m128i offsetSin = _mm_and_si128(q, _mm_set1_epi32(0x3));
+    const __m128i offsetCos = _mm_add_epi32(offsetSin, _mm_set1_epi32(1));
+    
+    // Remainder in range [-pi/4..pi/4]
+    const __m128 qf = _mm_cvtepi32_ps(q);
+    const __m128 p1 = nmsub(qf, _fill(_SINCOSF_KC1), x);
+    xl = nmsub(qf, _fill(_SINCOSF_KC2), p1);
+    
+    // Compute x^2 and x^3
+    const __m128 xl2 = mul(xl, xl);
+    const __m128 xl3 = mul(xl, xl2);
+    
+    // Compute both the sin and cos of the angles
+    // using a polynomial expression:
+    //   cx = 1.0f + xl2 * ((C0 * xl2 + C1) * xl2 + C2), and
+    //   sx = xl + xl3 * ((S0 * xl2 + S1) * xl2 + S2)
+    {
+      __m128 ct1 = madd(_fill(_SINCOSF_CC0), xl2, _fill(_SINCOSF_CC1));
+      __m128 st1 = madd(_fill(_SINCOSF_SC0), xl2, _fill(_SINCOSF_SC1));
+      __m128 ct2 = madd(ct1, xl2, _fill(_SINCOSF_CC2));
+      __m128 st2 = madd(st1, xl2, _fill(_SINCOSF_SC2));
+      cx = madd(ct2, xl2, _fill(1.0f));
+      sx = madd(st2, xl3, xl);
+    }
+    
+    // Use the cosine when the offset is odd and the sin
+    // when the offset is even
+    //
+    // Flip the sign of the result when (offset mod 4) = 1 or 2
+    //
+    {
+      const __m128i vi_0 = _mm_setzero_si128();
+      const __m128i vi_1 = _mm_set1_epi32(0x1);
+      const __m128i vi_2 = _mm_set1_epi32(0x2);
+      __m128 sinMask, cosMask;
+      sinMask = (__m128)_mm_cmpeq_epi32(_mm_and_si128(offsetSin, vi_1), vi_0);
+      cosMask = (__m128)_mm_cmpeq_epi32(_mm_and_si128(offsetCos, vi_1), vi_0);
+      ts = _mm_sel_ps(cx,sx,sinMask);
+      tc = _mm_sel_ps(cx,sx,cosMask);
+      
+      sinMask = (__m128)_mm_cmpeq_epi32(_mm_and_si128(offsetSin, vi_2), vi_0);
+      cosMask = (__m128)_mm_cmpeq_epi32(_mm_and_si128(offsetCos, vi_2), vi_0);
+      ts = _mm_sel_ps(negate(ts), ts, sinMask);
+      tc = _mm_sel_ps(negate(tc), tc, cosMask);
+    }
+    
+    s = ts;
+    c = tc;
+  }
+  
+  vec_float mod(vec_float a, vec_float b)
+  {
+    vec_float c = floor(div(a, b));
+    return a - mul(c, b);
+  }
+  
+}
+
+#endif
