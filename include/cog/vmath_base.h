@@ -117,6 +117,17 @@ namespace cog{
   
 }
 
+// MARK: Const prototype
+namespace cog{
+  namespace
+  {
+    template<typename T>
+    struct Const{
+      //
+    };
+  }
+}
+
 // MARK: some func
 
 namespace cog{

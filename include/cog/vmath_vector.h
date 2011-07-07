@@ -267,7 +267,12 @@ namespace cog{
   
   /////////////////////////////
   
-  
+  template<typename T>
+  inline const basic_vector3<T> reflect
+  (const basic_vector3<T>& i, const basic_vector3<T>& n)
+  {
+    return i - mul(Const<T>::TWO, dot(n,i)) * n;
+  }
   
   /////////////////////////////
   

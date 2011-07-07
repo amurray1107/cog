@@ -120,7 +120,21 @@ namespace cog{
       return basic_matrix3<T>(c0, c1, c2);
     }
     
-    
   }
+  
+  /////////////
+  
+  template<typename T>
+  inline const basic_quaternion<T> conjugate(const basic_quaternion<T>& q)
+  {
+    return basic_quaternion<T>(-(q.getV()), q.getW());
+  }
+  
+  template<typename T>
+  inline const basic_quaternion<T> inverse(const basic_quaternion<T>& q)
+  {
+    return conjugate(q) * recip(lengthSqr(q));
+  }
+  
 }
 

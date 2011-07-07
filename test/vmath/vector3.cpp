@@ -142,5 +142,12 @@ int main()
       return 1;
   }
   
+  // Test: reflect
+  for(float x=-2.0f; x<=2.0f; x+=0.1f){
+    if(!_test(reflect(vec3(-1.0f, -1.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f)),
+              vec3(-1.0f, 1.0f, 0.0f)))
+      return 1;
+  }
+  
   return 0;
 }

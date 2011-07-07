@@ -2,14 +2,6 @@ namespace cog{
   
   namespace
   {
-    template<typename T>
-    struct Const{
-      //
-    };
-  }
-  
-  namespace
-  {
     template<>
     struct Const<float>{
       static const float ZERO;

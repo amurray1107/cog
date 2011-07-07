@@ -138,5 +138,17 @@ int main()
       return 1;
   }
   
+  // Test: conjugate
+  for(float x=-2.0f; x<=2.0f; x+=0.1f){
+    if(!_test(conjugate(quat(vec3(1.0f), 2.0f)), vec3(-1.0f), 2.0f))
+      return 1;
+  }
+  
+  // Test: inverse
+  if(!_test(inverse(identity), identity))
+    return 1;
+  if(!_test(inverse(identity)*identity, identity))
+    return 1;
+  
   return 0;
 }
