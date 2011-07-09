@@ -3,4 +3,5 @@ add_subdirectory(basic_perspective)
 add_subdirectory(basic_orthographic)
 add_subdirectory(basic_model_transform)
 add_subdirectory(basic_view_transform)
+add_subdirectory(basic_quaternion)
 
