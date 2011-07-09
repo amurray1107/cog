@@ -14,7 +14,7 @@ static void _OnDisplayGLUT(void)
   glTranslatef(0.0f, 0.0f, -4.0f);
   
   // 
-  mat3 rotmat = cog::tfm::make_rotate(rotateQua);
+  mat3 rotmat = cog::make_rotate(rotateQua);
   mat4 tmp = mat4(rotmat, vec3(0.0f));
   glMultMatrixf((float*)&tmp);
   
@@ -44,7 +44,7 @@ static void _OnReshapeGLUT(int width, int height)
   const float aspect = (float)width / (float)height;
   const float t = near * f;
   const float r = aspect * t;
-  mat4 proj = cog::tfm::make_perspective(-r, r, -t, t, near, far);
+  mat4 proj = cog::make_perspective(-r, r, -t, t, near, far);
   
   // Set Projection Matrix
   glMatrixMode(GL_PROJECTION);
@@ -56,7 +56,7 @@ static void _OnReshapeGLUT(int width, int height)
 
 static void _OnSpecialDownGLUT(int key, int x, int y)
 {
-  using namespace cog::tfm;
+  using namespace cog;
   const float PI = 3.141592653589793f;
   const float f = PI/30.0f;
   

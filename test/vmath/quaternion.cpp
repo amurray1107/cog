@@ -128,12 +128,12 @@ int main()
       return 1;
   }
   
-  // Test: tfm::make_rotate
+  // Test: make_rotate
   for(float r=0.0f; r<=PI; r+=PI*0.1f){
     mat3 m;
     quat q;
     q = make_quat(r, vec3(0.0f, 0.0f, 1.0f));
-    m = tfm::make_rotate(q);
+    m = make_rotate(q);
     if(!_test(m*vec3(1.0f, 0.0f, 0.0f), q*vec3(1.0f, 0.0f, 0.0f)))
       return 1;
   }

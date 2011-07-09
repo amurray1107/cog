@@ -9,6 +9,7 @@ static void _OnDisplayGLUT(void)
 {
   // Render Now!
   glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+  glEnable(GL_DEPTH_TEST);
   
   // Set Model-View Matrix
   glMatrixMode(GL_MODELVIEW);
@@ -18,8 +19,14 @@ static void _OnDisplayGLUT(void)
   glMultMatrixf((float*)&viewMat);
   
   // Draw!
+  glLineWidth(4.0f);
+  glColor3f(1.0f, 0.0f, 0.0f);
+  glutWireCube(1.5f);
+  glColor3f(1.0f, 1.0f, 1.0f);
   glutSolidCube(1.5f);
+  glLineWidth(1.0f);
   glutWireSphere(10.0f, 16, 16);
+  
   
   // Swap Display Buffer
   glutSwapBuffers();
@@ -41,7 +48,7 @@ static void _OnReshapeGLUT(int width, int height)
   const float aspect = (float)width / (float)height;
   const float t = near * f;
   const float r = aspect * t;
-  mat4 proj = cog::tfm::make_perspective(-r, r, -t, t, near, far);
+  mat4 proj = cog::make_perspective(-r, r, -t, t, near, far);
   
   // Set Projection Matrix
   glMatrixMode(GL_PROJECTION);
@@ -56,7 +63,6 @@ static void _OnReshapeGLUT(int width, int height)
 static void _OnSpecialDownGLUT(int key, int x, int y)
 {
   using namespace cog;
-  using namespace cog::tfm;
   
   const vec3 d = -normalize(transpose(viewRot).getColumn2());
   

@@ -92,34 +92,30 @@ namespace cog{
   
   /////////////
   
-  namespace tfm{
+  template<typename T>
+  inline const basic_matrix3<T> make_rotate(const basic_quaternion<T>& q)
+  {
+    const T qw = q.getW();
+    const basic_vector3<T> qv = q.getV();
+    const T di = sub(mul(qw, qw), lengthSqr(qv));
+    const T x2 = add(qv.getX(), qv.getX());
+    const T y2 = add(qv.getY(), qv.getY());
+    const T z2 = add(qv.getZ(), qv.getZ());
+    const T xx2 = mul(x2, qv.getX());
+    const T xy2 = mul(x2, qv.getY());
+    const T xz2 = mul(x2, qv.getZ());
+    const T xw2 = mul(x2, qw);
+    const T yy2 = mul(y2, qv.getY());
+    const T yz2 = mul(y2, qv.getZ());
+    const T yw2 = mul(y2, qw);
+    const T zz2 = mul(z2, qv.getZ());
+    const T zw2 = mul(z2, qw);
     
-    template<typename T>
-    inline const basic_matrix3<T> make_rotate(const basic_quaternion<T>& q)
-    {
-      const T qw = q.getW();
-      const basic_vector3<T> qv = q.getV();
-      const T di = sub(mul(qw, qw), lengthSqr(qv));
-      const T x2 = add(qv.getX(), qv.getX());
-      const T y2 = add(qv.getY(), qv.getY());
-      const T z2 = add(qv.getZ(), qv.getZ());
-      const T xx2 = mul(x2, qv.getX());
-      const T xy2 = mul(x2, qv.getY());
-      const T xz2 = mul(x2, qv.getZ());
-      const T xw2 = mul(x2, qw);
-      const T yy2 = mul(y2, qv.getY());
-      const T yz2 = mul(y2, qv.getZ());
-      const T yw2 = mul(y2, qw);
-      const T zz2 = mul(z2, qv.getZ());
-      const T zw2 = mul(z2, qw);
-      
-      basic_vector3<T> c0 (add(di, xx2), add(xy2, zw2), sub(xz2, yw2));
-      basic_vector3<T> c1 (sub(xy2, zw2), add(di, yy2), add(yz2, xw2));
-      basic_vector3<T> c2 (add(xz2, yw2), sub(yz2, xw2), add(di, zz2));
-      
-      return basic_matrix3<T>(c0, c1, c2);
-    }
+    basic_vector3<T> c0 (add(di, xx2), add(xy2, zw2), sub(xz2, yw2));
+    basic_vector3<T> c1 (sub(xy2, zw2), add(di, yy2), add(yz2, xw2));
+    basic_vector3<T> c2 (add(xz2, yw2), sub(yz2, xw2), add(di, zz2));
     
+    return basic_matrix3<T>(c0, c1, c2);
   }
   
   /////////////

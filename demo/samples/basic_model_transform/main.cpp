@@ -43,7 +43,7 @@ static void _OnReshapeGLUT(int width, int height)
   const float aspect = (float)width / (float)height;
   const float t = near * f;
   const float r = aspect * t;
-  mat4 proj = cog::tfm::make_perspective(-r, r, -t, t, near, far);
+  mat4 proj = cog::make_perspective(-r, r, -t, t, near, far);
   
   // Set Projection Matrix
   glMatrixMode(GL_PROJECTION);
@@ -75,7 +75,7 @@ static void _OnKeyDownGLUT(unsigned char key, int x, int y)
 
 static void _OnSpecialDownGLUT(int key, int x, int y)
 {
-  using namespace cog::tfm;
+  using namespace cog;
   
   switch(key){
     case GLUT_KEY_UP:

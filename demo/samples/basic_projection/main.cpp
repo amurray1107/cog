@@ -1,6 +1,24 @@
 #include <demo_common.h>
 #include <demo_glut.h>
 
+static const float near = 2.0f;
+static const float far = 50.0f;
+static const float fovy = 0.785f;
+static float aspectRatio = 0.0f;
+static bool isOrtho = false;
+
+static mat4 build_proj(float fovy, float ar, float zn, float zf, bool ort)
+{
+  float f = cog::tan(fovy*0.5f);
+  float t = zn * f;
+  float r = ar * t;
+  
+  if(ort)
+    return cog::make_orthographic(-r, r, -t, t, zn, zf);
+  
+  return cog::make_perspective(-r, r, -t, t, zn, zf);;
+}
+
 static void _OnDisplayGLUT(void)
 {
   // Render Now!
@@ -11,15 +29,16 @@ static void _OnDisplayGLUT(void)
   glLoadIdentity();
   
   // Translate!
-  glTranslatef(0.0f, 0.0f, -4.0f);
+  glTranslatef(0.0f, 0.0f, -3.0f);
   glRotatef(15.0f, 1.0f, 0.0f, 0.0f);
   glRotatef(30.0f, 0.0f, 1.0f, 0.0f);
   
   // Set Wire-line mode
   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+  glLineWidth(3.0f);
   
   // Draw!
-  glutSolidCube(1.5f);
+  glutSolidCube(1.0f);
   
   // Swap Display Buffer
   glutSwapBuffers();
@@ -34,18 +53,29 @@ static void _OnReshapeGLUT(int width, int height)
     return;
   
   // Set Parameters
-  const float near = 2.0f;
-  const float far = 50.0f;
-  const float fovy = 0.785f + 0.4f;
-  const float f = cog::tan(fovy*0.5f);
   const float aspect = (float)width / (float)height;
-  const float t = near * f;
-  const float r = aspect * t;
-  mat4 proj = cog::tfm::make_orthographic(-r, r, -t, t, near, far);
+  aspectRatio = aspect;
+  
+  mat4 proj = build_proj(fovy, aspect, near, far, isOrtho);
   
   // Set Projection Matrix
   glMatrixMode(GL_PROJECTION);
   glLoadMatrixf((float*)&proj);
+}
+
+static void _OnKeyDownGLUT(unsigned char key, int x, int y)
+{
+  switch(key){
+    case ' ':
+      isOrtho = !isOrtho;
+    {
+      mat4 proj = build_proj(fovy, aspectRatio, near, far, isOrtho);
+      glMatrixMode(GL_PROJECTION);
+      glLoadMatrixf((float*)&proj);
+    }
+      break;
+  }
+  glutPostRedisplay();
 }
 
 int main(int argc, char* argv[])
@@ -75,6 +105,9 @@ int main(int argc, char* argv[])
   
   // Install Resizing Event
   glutReshapeFunc(_OnReshapeGLUT);
+  
+  // Install Keyboard Event
+  glutKeyboardFunc(_OnKeyDownGLUT);
   
   // Enter Main Loop (NEVER RETURN)
   glutMainLoop();
