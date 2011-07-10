@@ -10,7 +10,7 @@ namespace cog{
     const T c = cos(radians);
     const T x = axis.getX(), y = axis.getY(), z = axis.getZ();
     const T xy = mul(x, y), yz = mul(y, z), zx = mul(z, x);
-    const T omc = sub(Const<T>::ONE, c);
+    const T omc = sub(const_<T>::ONE, c);
     const basic_vector3<T> c0 (add(mul(mul(x,x), omc), c),
                                add(mul(xy,omc), mul(z,s)),
                                sub(mul(zx,omc), mul(y,s)));
@@ -27,7 +27,7 @@ namespace cog{
   inline const basic_matrix3<T> make_scale
   (const basic_vector3<T>& scale)
   {
-    const T z0 = Const<T>::ZERO;
+    const T z0 = const_<T>::ZERO;
     const basic_vector3<T> c0 (scale.getX(), z0, z0);
     const basic_vector3<T> c1 (z0, scale.getY(), z0);
     const basic_vector3<T> c2 (z0, z0, scale.getZ());
@@ -43,8 +43,8 @@ namespace cog{
     const T rcp_r_l = recip(sub(right, left));
     const T rcp_t_b = recip(sub(top, bottom));
     const T rcp_n_f = recip(sub(near, far));
-    const T ne2 = mul(Const<T>::TWO, near);
-    const T z0 = Const<T>::ZERO, n1 = Const<T>::NEONE;
+    const T ne2 = mul(const_<T>::TWO, near);
+    const T z0 = const_<T>::ZERO, n1 = const_<T>::NEONE;
     const T s_r_l = add(right, left);
     const T s_t_b = add(top, bottom);
     const T s_f_n = add(far, near);
@@ -67,10 +67,10 @@ namespace cog{
     const T s_r_l = add(right, left);
     const T s_t_b = add(top, bottom);
     const T s_f_n = add(far, near);
-    const T z0 = Const<T>::ZERO, p1 = Const<T>::ONE;
-    const basic_vector4<T> c0 (mul(Const<T>::TWO, rcp_r_l), z0, z0, z0);
-    const basic_vector4<T> c1 (z0, mul(Const<T>::TWO, rcp_t_b), z0, z0);
-    const basic_vector4<T> c2 (z0, z0, mul(Const<T>::TWO, rcp_n_f), z0);
+    const T z0 = const_<T>::ZERO, p1 = const_<T>::ONE;
+    const basic_vector4<T> c0 (mul(const_<T>::TWO, rcp_r_l), z0, z0, z0);
+    const basic_vector4<T> c1 (z0, mul(const_<T>::TWO, rcp_t_b), z0, z0);
+    const basic_vector4<T> c2 (z0, z0, mul(const_<T>::TWO, rcp_n_f), z0);
     const basic_vector4<T> c3 (negate(mul(s_r_l, rcp_r_l)),
                                negate(mul(s_t_b, rcp_t_b)),
                                mul(s_f_n, rcp_n_f), p1);

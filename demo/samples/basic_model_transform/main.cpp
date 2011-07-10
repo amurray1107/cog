@@ -50,7 +50,7 @@ static void _OnReshapeGLUT(int width, int height)
   glLoadMatrixf((float*)&proj);
   
   // 
-  rotateMat = cog::ConstMatrix3<float>::identity();
+  rotateMat = cog::const_matrix3<float>::identity();
   translVec = vec3(0.0f, 0.0f, -4.0f);
 }
 

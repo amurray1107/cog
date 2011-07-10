@@ -40,6 +40,14 @@ static void _OnDisplayGLUT(void)
   // Draw!
   glutSolidCube(1.0f);
   
+  // Draw Text
+  hud_begin();
+  if(isOrtho)
+    hud_puts("[ Orthographic Projection ]");
+  else
+    hud_puts("[ Perspective Projection ]");
+  hud_end();
+  
   // Swap Display Buffer
   glutSwapBuffers();
 }
@@ -51,6 +59,9 @@ static void _OnReshapeGLUT(int width, int height)
   // Prevent From Zero-Divisor Exception
   if(height==0)
     return;
+  
+  // Update HUD
+  hud_resize(width, height);
   
   // Set Parameters
   const float aspect = (float)width / (float)height;

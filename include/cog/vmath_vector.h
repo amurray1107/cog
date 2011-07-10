@@ -271,7 +271,7 @@ namespace cog{
   inline const basic_vector3<T> reflect
   (const basic_vector3<T>& i, const basic_vector3<T>& n)
   {
-    return i - mul(Const<T>::TWO, dot(n,i)) * n;
+    return i - mul(const_<T>::TWO, dot(n,i)) * n;
   }
   
   /////////////////////////////

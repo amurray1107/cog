@@ -55,7 +55,7 @@ static void _OnReshapeGLUT(int width, int height)
   glLoadMatrixf((float*)&proj);
   
   //
-  viewRot = cog::ConstMatrix3<float>::identity();
+  viewRot = cog::const_matrix3<float>::identity();
   viewPos = vec3(0.0f, 0.0f, 4.0f);
   viewMat = mat4(viewRot, -viewPos);
 }
