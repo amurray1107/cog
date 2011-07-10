@@ -147,27 +147,20 @@ static void _blend_mesh_dualquat()
     
     const vec3 old = vec3(vtx[0], vtx[1], vtx[2]);
     
-    quat rot(vec3(0.0f), 0.0f);
-    quat dis(vec3(0.0f), 0.0f);
+    dualquat tfm(quat(vec3(0.0f), 0.0f), quat(vec3(0.0f), 0.0f));
     float sum = 0.0f;
     
     for(int i=0; i<2; i++){
       float w = float(bwei[i]) / 255.0f;
       const quat& rq = mesh_blend_rotation[bidx[i]];
       const vec3& dv = mesh_blend_displacement[bidx[i]];
-      rot = rot + rq * w;
-      dis = dis + quat(0.5f * dv, 0.0f) * rq * w;
+      tfm = tfm + dualquat(rq, dv) * w;
       sum += w;
     }
-    sum = cog::recip(sum);
-    rot = rot * sum;
-    dis = dis * sum;
-    float n = cog::rsqrt(lengthSqr(rot));
-    rot = rot * n;
-    dis = dis * n;
+    tfm = normalize(tfm * cog::recip(sum));
     
-    vec3 vt = 2.0f * (dis * conjugate(rot)).getV();
-    vec3 vr = rot * old;
+    vec3 vt = tfm.getDisplacement();
+    vec3 vr = tfm.getRotation() * old;
     vr = vr + vt;
     
     outvtx[0] = vr.getX();

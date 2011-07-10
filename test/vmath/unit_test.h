@@ -179,3 +179,25 @@ namespace cog{
   }
   
 }
+
+namespace cog{
+  
+  typedef basic_dualquat<float> dualquat;
+  
+  inline bool _test
+  (const dualquat& c, const quat& q0, const quat& qe)
+  {
+    if(!_test(c.getQ0(), q0))
+      return false;
+    if(!_test(c.getQe(), qe))
+      return false;
+    return true;
+  }
+  
+  inline bool _test
+  (const dualquat& c, const dualquat& ex)
+  {
+    return _test(c, ex.getQ0(), ex.getQe());
+  }
+  
+}
