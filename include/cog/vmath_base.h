@@ -1,3 +1,5 @@
+#pragma once
+
 #include <float.h>
 
 // MARK: float op
@@ -163,3 +165,31 @@ namespace cog{
 #ifdef __SSE__
 #  include "vmath_base_sse.h"
 #endif
+
+// MARK: Vector Math prototypes
+
+namespace cog{
+  
+  template<typename T> class basic_vector3;
+  template<typename T> class basic_vector4;
+  template<typename T> class basic_matrix3;
+  template<typename T> class basic_matrix4;
+  template<typename T> class basic_quaternion;
+  template<typename T> class basic_dualquat;
+  
+}
+
+// MARK: AOS v.s. SOA
+
+namespace cog{
+  
+  void convert(basic_vector3<vec_float>& soa, const basic_vector3<float>* aos);
+  
+  void convert(basic_vector3<float>* aos, const basic_vector3<vec_float>& soa);
+  
+  void convert(basic_vector4<vec_float>& soa, const basic_vector4<float>* aos);
+  
+  void convert(basic_vector4<float>* aos, const basic_vector4<vec_float>& soa);
+  
+}
+

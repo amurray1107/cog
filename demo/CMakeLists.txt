@@ -2,7 +2,15 @@ project(cog_demo)
 
 #
 find_package(OpenGL REQUIRED)
+if(NOT ${OPENGL_FOUND})
+  return()
+endif()
+
+#
 find_package(GLUT REQUIRED)
+if(NOT ${GLUT_FOUND})
+  return()
+endif()
 
 #
 add_subdirectory(common)

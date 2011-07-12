@@ -33,4 +33,6 @@ namespace cog{
     return ::tanf(x);
   }
   
+  
+  
 }

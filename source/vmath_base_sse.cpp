@@ -163,4 +163,107 @@ namespace cog{
   
 }
 
+#include <cog/vmath_const.h>
+#include <cog/vmath_vector.h>
+
+namespace cog{
+  
+  /////////////////////////////////////////////////
+  
+  /*
+   
+   XMM REGISTER:
+   
+   127    95     63     31     0
+   | r[3] | r[2] | r[1] | r[0] | = { r[0], r[1], r[2], r[3] } (IN MEMORY)
+   |  z   |  y   |  x   |  w   | = { w, x, y, z }
+   
+   
+   SHUFFLE (SWIZZLING)
+   
+   _mm_shuffle_ps(r, s, _MM_SHUFFLE(0,1,2,3)) = { r[3], r[2], s[1], s[0] }
+   
+   */
+  
+  /////////////////////////////////////////////////
+  
+  void convert(basic_vector3<vec_float>& soa, const basic_vector3<float>* aos)
+  {
+    __m128 a0 = _mm_load_ps((float*)aos);
+    __m128 a1 = _mm_load_ps((float*)aos+4);
+    __m128 a2 = _mm_load_ps((float*)aos+8);
+    
+    __m128 m0 = _mm_shuffle_ps(a0, a1, _MM_SHUFFLE(1,0,2,1));
+    __m128 m1 = _mm_shuffle_ps(a1, a2, _MM_SHUFFLE(2,1,3,2));
+    
+    a0 = _mm_shuffle_ps(a0, m1, _MM_SHUFFLE(2,0,3,0));
+    a1 = _mm_shuffle_ps(m0, m1, _MM_SHUFFLE(3,1,2,0));
+    a2 = _mm_shuffle_ps(m0, a2, _MM_SHUFFLE(3,0,3,1));
+    
+    soa = basic_vector3<vec_float>(a0, a1, a2);
+  }
+  
+  void convert(basic_vector3<float>* aos, const basic_vector3<vec_float>& soa)
+  {
+    __m128 a0 = soa.getX();
+    __m128 a1 = soa.getY();
+    __m128 a2 = soa.getZ();
+    
+    __m128 m0 = _mm_shuffle_ps(a0, a1, _MM_SHUFFLE(2,0,2,0));
+    __m128 m1 = _mm_shuffle_ps(a2, a0, _MM_SHUFFLE(3,1,2,0));
+    __m128 m2 = _mm_shuffle_ps(a1, a2, _MM_SHUFFLE(3,1,3,1));
+    
+    a0 = _mm_shuffle_ps(m0, m1, _MM_SHUFFLE(2,0,2,0));
+    a1 = _mm_shuffle_ps(m2, m0, _MM_SHUFFLE(3,1,2,0));
+    a2 = _mm_shuffle_ps(m1, m2, _MM_SHUFFLE(3,1,3,1));
+    
+    _mm_store_ps((float*)aos, a0);
+    _mm_store_ps((float*)aos+4, a1);
+    _mm_store_ps((float*)aos+8, a2);
+  }
+  
+  inline void _transpose(__m128& a0, __m128& a1, __m128& a2, __m128& a3)
+  {
+    __m128 tmp0, tmp1, tmp2, tmp3;
+    
+    tmp0 = _mm_unpacklo_ps(a0, a2);
+    tmp1 = _mm_unpacklo_ps(a1, a3);
+    tmp2 = _mm_unpackhi_ps(a0, a2);
+    tmp3 = _mm_unpackhi_ps(a1, a3);
+    
+    a0 = _mm_unpacklo_ps(tmp0, tmp1);
+    a1 = _mm_unpackhi_ps(tmp0, tmp1);
+    a2 = _mm_unpacklo_ps(tmp2, tmp3);
+    a3 = _mm_unpackhi_ps(tmp2, tmp3);
+  }
+  
+  void convert(basic_vector4<vec_float>& soa, const basic_vector4<float>* aos)
+  {
+    __m128 a0 = _mm_load_ps((float*)aos);
+    __m128 a1 = _mm_load_ps((float*)aos+4);
+    __m128 a2 = _mm_load_ps((float*)aos+8);
+    __m128 a3 = _mm_load_ps((float*)aos+12);
+    
+    _transpose(a0, a1, a2, a3);
+    
+    soa = basic_vector4<vec_float>(a0, a1, a2, a3);
+  }
+  
+  void convert(basic_vector4<float>* aos, const basic_vector4<vec_float>& soa)
+  {
+    __m128 a0 = soa.getX();
+    __m128 a1 = soa.getY();
+    __m128 a2 = soa.getZ();
+    __m128 a3 = soa.getW();
+    
+    _transpose(a0, a1, a2, a3);
+    
+    _mm_store_ps((float*)aos, a0);
+    _mm_store_ps((float*)aos+4, a1);
+    _mm_store_ps((float*)aos+8, a2);
+    _mm_store_ps((float*)aos+12, a3);
+  }
+  
+}
+
 #endif
