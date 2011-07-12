@@ -1,4 +1,3 @@
-#include <iostream>
 #include "unit_test.h"
 
 using namespace cog;

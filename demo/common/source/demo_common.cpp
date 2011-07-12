@@ -1,5 +1,8 @@
 #include <demo_common.h>
 #include <demo_glut.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <stdarg.h>
 
 static int hud_width, hud_height, hud_cursor;

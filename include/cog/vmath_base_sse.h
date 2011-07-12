@@ -23,6 +23,32 @@ namespace cog{
     return _mm_set1_ps(s);
   }
   
+  // @Private Member
+  
+  union _vec_float_union{
+    __m128 typeF;
+    __m128i typeI;
+  };
+  
+  inline __m128 _i2f(__m128i x)
+  {
+    _vec_float_union u; u.typeI = x;
+    return u.typeF;
+  }
+  
+  inline __m128i _f2i(__m128 x)
+  {
+    _vec_float_union u; u.typeF = x;
+    return u.typeI;
+  }
+  
+  inline __m128 _mm_sel_ps(__m128 x, __m128 y, __m128 s)
+  {
+    __m128 mx = _mm_andnot_ps(s, x);
+    __m128 my = _mm_and_ps(s, y);
+    return _mm_or_ps(mx, my);
+  }
+  
   // @Public Member
   
   inline vec_float abs(vec_float x)
@@ -115,6 +141,11 @@ namespace cog{
     vec_float s, c;
     _sincos(x, s, c);
     return div(s, c);
+  }
+  
+  inline vec_float copysign(vec_float x, vec_float y)
+  {
+    return _mm_sel_ps(x, y, _mm_set1_ps(-0.0f));
   }
   
   // 

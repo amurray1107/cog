@@ -12,22 +12,9 @@ namespace cog{
   const float _SINCOSF_KC1 = 1.57079625129f;
   const float _SINCOSF_KC2 = 7.54978995489e-8f;
   
-  inline __m128 _mm_sel_ps(__m128 x, __m128 y, __m128 s)
-  {
-    __m128 mx = _mm_andnot_ps(s, x);
-    __m128 my = _mm_and_ps(s, y);
-    return _mm_or_ps(mx, my);
-  }
-  
   inline __m128 _mm_signbit_ps(__m128 x)
   {
-    __m128i xi = (__m128i) x;
-    return (__m128) _mm_srai_epi32(xi, 31);
-  }
-  
-  inline __m128 _mm_copysign_ps(__m128 x, __m128 y)
-  {
-    return _mm_sel_ps(x, y, _mm_set1_ps(-0.0f));
+    return _i2f(_mm_srai_epi32(_f2i(x), 31));
   }
   
   inline vec_float _fill(float x)
@@ -60,7 +47,7 @@ namespace cog{
   
   vec_float acos(vec_float x)
   {
-    const __m128 select = (__m128)_mm_signbit_ps(x);
+    const __m128 select = _mm_signbit_ps(x);
     const __m128 xabs = abs(x);
     
     const __m128 t1 = sqrt(sub(_fill(1.0f), xabs));
@@ -93,7 +80,7 @@ namespace cog{
   
   vec_float floor(vec_float x)
   {
-    const __m128 xacmp = (__m128)_mm_set1_epi32(0x4b000000);
+    const __m128 xacmp = _i2f(_mm_set1_epi32(0x4b000000));
     const __m128 inrange = _mm_cmpgt_ps(xacmp, abs(x));
     const __m128i xi = _mm_cvttps_epi32(x);
     const __m128i xi1 = _mm_sub_epi32(xi, _mm_set1_epi32(1));
@@ -110,7 +97,7 @@ namespace cog{
     
     // Range reduction using : xl = angle * TwoOverPi;
     xl = mul(x, _fill( 0.63661977236f) );
-    xl = add(xl, _mm_copysign_ps( _fill(0.5f), xl) );
+    xl = add(xl, copysign( _fill(0.5f), xl) );
     
     // Find the quadrant the angle falls in
     // using:  q = (int) (ceil(abs(xl))*sign(xl))
@@ -153,13 +140,13 @@ namespace cog{
       const __m128i vi_1 = _mm_set1_epi32(0x1);
       const __m128i vi_2 = _mm_set1_epi32(0x2);
       __m128 sinMask, cosMask;
-      sinMask = (__m128)_mm_cmpeq_epi32(_mm_and_si128(offsetSin, vi_1), vi_0);
-      cosMask = (__m128)_mm_cmpeq_epi32(_mm_and_si128(offsetCos, vi_1), vi_0);
+      sinMask = _i2f(_mm_cmpeq_epi32(_mm_and_si128(offsetSin, vi_1), vi_0));
+      cosMask = _i2f(_mm_cmpeq_epi32(_mm_and_si128(offsetCos, vi_1), vi_0));
       ts = _mm_sel_ps(cx,sx,sinMask);
       tc = _mm_sel_ps(cx,sx,cosMask);
       
-      sinMask = (__m128)_mm_cmpeq_epi32(_mm_and_si128(offsetSin, vi_2), vi_0);
-      cosMask = (__m128)_mm_cmpeq_epi32(_mm_and_si128(offsetCos, vi_2), vi_0);
+      sinMask = _i2f(_mm_cmpeq_epi32(_mm_and_si128(offsetSin, vi_2), vi_0));
+      cosMask = _i2f(_mm_cmpeq_epi32(_mm_and_si128(offsetCos, vi_2), vi_0));
       ts = _mm_sel_ps(negate(ts), ts, sinMask);
       tc = _mm_sel_ps(negate(tc), tc, cosMask);
     }
@@ -171,7 +158,7 @@ namespace cog{
   vec_float mod(vec_float a, vec_float b)
   {
     vec_float c = floor(div(a, b));
-    return a - mul(c, b);
+    return sub(a, mul(c, b));
   }
   
 }

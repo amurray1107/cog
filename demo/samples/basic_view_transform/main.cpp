@@ -1,5 +1,6 @@
 #include <demo_common.h>
 #include <demo_glut.h>
+#include <stdio.h>
 
 static mat4 viewMat;
 static vec3 viewPos;

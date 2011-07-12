@@ -1,5 +1,6 @@
 #include <demo_common.h>
 #include <demo_glut.h>
+#include <stdio.h>
 
 static const float near = 2.0f;
 static const float far = 50.0f;

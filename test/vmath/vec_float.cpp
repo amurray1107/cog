@@ -1,5 +1,5 @@
-#include <iostream>
 #include "unit_test.h"
+#include <stdio.h>
 
 using namespace cog;
 
@@ -159,6 +159,16 @@ int main(int argc, char* argv[])
       TEST2(mod, SPLATS(-x), SPLATS( y));
       TEST2(mod, SPLATS( x), SPLATS(-y));
       TEST2(mod, SPLATS(-x), SPLATS(-y));
+    }
+  }
+  
+  // Test: copysign
+  for(float x=0.0f; x<10.0f; x+=0.01f){
+    for(float y=0.01f; y<10.0f; y+=0.1f){
+      TEST2(copysign, SPLATS( x), SPLATS( y));
+      TEST2(copysign, SPLATS(-x), SPLATS( y));
+      TEST2(copysign, SPLATS( x), SPLATS(-y));
+      TEST2(copysign, SPLATS(-x), SPLATS(-y));
     }
   }
   

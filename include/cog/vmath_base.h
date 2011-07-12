@@ -1,6 +1,4 @@
-#include <cfloat>
-#include <cmath>
-#include <algorithm>
+#include <float.h>
 
 // MARK: float op
 
@@ -18,9 +16,30 @@ namespace cog{
   
   /// Basic Arithmetic Operators
   
+  // // @ Private Members
+  
+  union _f32_union{
+    float typeF;
+    int typeI;
+  };
+  
+  inline float _i2f(int x)
+  {
+    _f32_union u; u.typeI = x;
+    return u.typeF;
+  }
+  
+  inline int _f2i(float x)
+  {
+    _f32_union u; u.typeF = x;
+    return u.typeI;
+  }
+  
+  // // @ Public Members
+  
   inline float abs(float x)
   {
-    return std::fabs(x);
+    return _i2f( _f2i(x) & 0x7fffffff );
   }
   
   inline float negate(float x)
@@ -55,12 +74,12 @@ namespace cog{
   
   inline float min(float x, float y)
   {
-    return std::min(x, y);
+    return (x < y ? x : y);
   }
   
   inline float max(float x, float y)
   {
-    return std::max(x, y);
+    return (x > y ? x : y);
   }
   
   /// Composited Arithmetic Operators
@@ -77,42 +96,34 @@ namespace cog{
   
   inline float rsqrt(float x)
   {
-    return 1.0f / std::sqrt(x);
+    extern float _sqrt(float);
+    return 1.0f / _sqrt(x);
   }
   
   inline float sqrt(float x)
   {
-    return std::sqrt(x);
+    extern float _sqrt(float);
+    return _sqrt(x);
   }
   
-  inline float floor(float x)
-  {
-    return std::floor(x);
-  }
+  extern float floor(float x);
   
-  inline float acos(float x)
-  {
-    return std::acos(x);
-  }
+  extern float acos(float x);
   
-  inline float sin(float x)
-  {
-    return std::sin(x);
-  }
+  extern float sin(float x);
   
-  inline float cos(float x)
-  {
-    return std::cos(x);
-  }
+  extern float cos(float x);
   
-  inline float tan(float x)
-  {
-    return std::tan(x);
-  }
+  extern float tan(float x);
   
   inline float mod(float a, float b)
   {
-    return a - b * std::floor(a/b);
+    return a - b * floor(a/b);
+  }
+  
+  inline float copysign(float x, float y)
+  {
+    return _i2f((_f2i(x) & 0x7fffffff) | (_f2i(y) & 0x80000000));
   }
   
 }

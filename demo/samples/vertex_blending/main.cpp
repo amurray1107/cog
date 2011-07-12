@@ -1,5 +1,6 @@
 #include <demo_common.h>
 #include <demo_glut.h>
+#include <stdio.h>
 
 static const int mesh_vsplits = 8;
 static const int mesh_hsplits = 32;

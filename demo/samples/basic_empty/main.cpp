@@ -1,6 +1,7 @@
 #include <cog/cog.h>
 #include <GLEW/glew.h>
 #include <demo_glut.h>
+#include <stdio.h>
 
 static void _OnDisplayGLUT(void)
 {

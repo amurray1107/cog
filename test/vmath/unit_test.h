@@ -16,7 +16,7 @@ namespace cog{
     
     for(int i=0; i<(int)VEC_FLOAT_LENGTH; i++){
       float r = g(inx[i]);
-      if( std::abs(res[i] - r) > FLOAT_ERROR_TOLERANCE )
+      if( abs(res[i] - r) > FLOAT_ERROR_TOLERANCE )
         return false;
     }
     
@@ -36,7 +36,7 @@ namespace cog{
     
     for(int i=0; i<(int)VEC_FLOAT_LENGTH; i++){
       float r = g(inx[i], iny[i]);
-      if( std::abs(res[i] - r) > FLOAT_ERROR_TOLERANCE )
+      if( abs(res[i] - r) > FLOAT_ERROR_TOLERANCE )
         return false;
     }
     
@@ -57,7 +57,7 @@ namespace cog{
     
     for(int i=0; i<(int)VEC_FLOAT_LENGTH; i++){
       float r = g(inx[i], iny[i], inz[i]);
-      if( std::abs(res[i] - r) > FLOAT_ERROR_TOLERANCE )
+      if( abs(res[i] - r) > FLOAT_ERROR_TOLERANCE )
         return false;
     }
     
