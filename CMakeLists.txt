@@ -14,6 +14,7 @@ if((${CPU} MATCHES "^i?[x3456789]86")OR(${CPU} STREQUAL "amd64"))
   message("Processor: Intel x86/x64 Family")
   if(${CMAKE_COMPILER_IS_GNUCXX})
     add_definitions("-msse" "-msse2")
+    add_definitions("-fabi-version=0")
   endif()
   
   if(${CPU} MATCHES "64$")

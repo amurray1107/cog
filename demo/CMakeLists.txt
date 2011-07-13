@@ -1,13 +1,13 @@
 project(cog_demo)
 
 #
-find_package(OpenGL REQUIRED)
+find_package(OpenGL)
 if(NOT ${OPENGL_FOUND})
   return()
 endif()
 
 #
-find_package(GLUT REQUIRED)
+find_package(GLUT)
 if(NOT ${GLUT_FOUND})
   return()
 endif()
