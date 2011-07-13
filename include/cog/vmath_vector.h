@@ -76,7 +76,12 @@ namespace cog{
     {
     }
     
+#ifdef _MSC_VER
+    // workaround for compiler bug
+    inline explicit basic_vector4(T x, T y, T z, const T& w)
+#else
     inline explicit basic_vector4(T x, T y, T z, T w)
+#endif
     :m_X(x), m_Y(y), m_Z(z), m_W(w)
     {
     }
@@ -94,7 +99,7 @@ namespace cog{
     
     ///////
     
-    explicit basic_vector4(const basic_vector3<T>& v, T w):
+    inline explicit basic_vector4(const basic_vector3<T>& v, T w):
     m_X(v.getX()), m_Y(v.getY()), m_Z(v.getZ()), m_W(w)
     {
     }

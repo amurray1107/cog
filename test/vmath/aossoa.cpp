@@ -8,15 +8,21 @@ using namespace cog;
 typedef basic_vector3<vec_float> vfvec3;
 typedef basic_vector4<vec_float> vfvec4;
 
+#ifdef _MSC_VER
+#  define ALIGNED __declspec(align(32))
+#else
+#  define ALIGNED
+#endif
+
 int main()
 {
-  vec3 aos3[VEC_FLOAT_LENGTH];
-  vec4 aos4[VEC_FLOAT_LENGTH];
-  vfvec3 soa3;
-  vfvec4 soa4;
-  float ex3[3][VEC_FLOAT_LENGTH];
-  float ex4[4][VEC_FLOAT_LENGTH];
-  
+  ALIGNED vec3 aos3[VEC_FLOAT_LENGTH];
+  ALIGNED vec4 aos4[VEC_FLOAT_LENGTH];
+  ALIGNED vfvec3 soa3;
+  ALIGNED vfvec4 soa4;
+  ALIGNED float ex3[3][VEC_FLOAT_LENGTH];
+  ALIGNED float ex4[4][VEC_FLOAT_LENGTH];
+
   if(sizeof(soa3) != sizeof(aos3))
     return 1;
   if(sizeof(soa4) != sizeof(aos4))
@@ -27,8 +33,8 @@ int main()
     return 1;
   
   for(int i=0;i<VEC_FLOAT_LENGTH;i++){
-    aos3[i] = vec3(i*3+1, i*3+2, i*3+3);
-    aos4[i] = vec4(i*4+1, i*4+2, i*4+3, i*4+4);
+    aos3[i] = vec3(float(i*3+1), float(i*3+2), float(i*3+3));
+    aos4[i] = vec4(float(i*4+1), float(i*4+2), float(i*4+3), float(i*4+4));
     ex3[0][i] = aos3[i].getX();
     ex3[1][i] = aos3[i].getY();
     ex3[2][i] = aos3[i].getZ();
