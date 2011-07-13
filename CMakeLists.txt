@@ -15,6 +15,7 @@ if((${CPU} MATCHES "^i?[x3456789]86")OR(${CPU} STREQUAL "amd64"))
   if(${CMAKE_COMPILER_IS_GNUCXX})
     add_definitions("-msse" "-msse2")
     add_definitions("-fabi-version=0")
+    add_definitions("-Wall")
   endif()
   
   if(${CPU} MATCHES "64$")
