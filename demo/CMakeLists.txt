@@ -20,13 +20,8 @@ function(add_demo)
   include_directories("${cog_demo_common_SOURCE_DIR}/include")
   file(GLOB_RECURSE cpp_files "*.cpp")
   
-  string(LENGTH "${CMAKE_SOURCE_DIR}" pl)
-  string(LENGTH "${CMAKE_CURRENT_SOURCE_DIR}" l)
-  math(EXPR pl ${pl}+1) # remove leading '/'
-  math(EXPR l ${l}-${pl})
-  string(SUBSTRING "${CMAKE_CURRENT_SOURCE_DIR}" ${pl} ${l} pe)
-  
-  string(REGEX REPLACE "[/]" "__" e ${pe})
+  file(RELATIVE_PATH e ${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
+  string(REGEX REPLACE "[/\\]" "_" e ${e})
   
   add_executable(${e} ${cpp_files})
   target_link_libraries(${e} cog cog_demo_common)
@@ -43,5 +38,11 @@ function(add_demo)
 endfunction(add_demo)
 
 #
-add_subdirectory(samples)
+set(p "${CMAKE_CURRENT_SOURCE_DIR}")
+file(GLOB_RECURSE main_files RELATIVE ${p} "main.cpp")
+foreach(i ${main_files})
+  string(REGEX REPLACE "[/\\]main.cpp$" "" dir_name "${i}")
+  message("Found demo: ${dir_name}")
+  add_subdirectory("${dir_name}")
+endforeach(i)
 

@@ -1,7 +1,0 @@
-add_subdirectory(basic_empty)
-add_subdirectory(basic_projection)
-add_subdirectory(basic_model_transform)
-add_subdirectory(basic_view_transform)
-add_subdirectory(basic_quaternion)
-add_subdirectory(vertex_blending)
-

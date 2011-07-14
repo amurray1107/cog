@@ -1,20 +1,35 @@
 project(cog_test)
 
-set(p "${CMAKE_CURRENT_SOURCE_DIR}")
-file(GLOB_RECURSE cpp_files RELATIVE ${p} "*.cpp")
-
-foreach(i ${cpp_files}) 
-  #message("found test source code: ${i}")
-  #string(REGEX MATCH "([^/]+)([.])(.+)$" base_name "${i}")
-  string(REGEX REPLACE "[/]" "__" base_name "${i}")
-  string(REGEX REPLACE "[.][^.]+$" "" exe_name "${base_name}")
-  #message("base_name = ${base_name}")
-  #message("exe_name = ${exe_name}")
+#
+function(ScanAndAddExecutable prefix test)
+  set(p "${CMAKE_CURRENT_SOURCE_DIR}")
+  file(GLOB_RECURSE cpp_files RELATIVE ${p} "*.cpp")
   
-  set(n "${exe_name}")
-  set(e "unit_test_${exe_name}")
-  add_executable(${e} ${i})
-  target_link_libraries(${e} cog)
-  add_test(${n} ${e} WORKING_DIRECTORY ${p})
-endforeach(i)
+  foreach(i ${cpp_files})
+    string(REGEX REPLACE "[/\\]" "_" base_name "${i}")
+    string(REGEX REPLACE "[.][^.]+$" "" base_name "${base_name}")
+    set(e "${prefix}${base_name}")
+    
+    add_executable(${e} ${i})
+    
+    set(libs ${ARGV})
+    list(REMOVE_AT libs 0 1)
+    list(LENGTH libs len)
+    if(${len} GREATER 0)
+      target_link_libraries(${e} ${libs})
+    endif()
+   
+    message("Auto Add Exe: ${e} with libs: ${libs}")
+    
+    if(${test})
+      message("Add Test: ${e}")
+      add_test(${e} ${e} WORKING_DIRECTORY ${p})
+    endif()
+    
+  endforeach(i)
+  
+endfunction()
+
+#
+ScanAndAddExecutable("unit_test_" TRUE "cog")
 

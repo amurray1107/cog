@@ -32,7 +32,7 @@ int main()
   if(sizeof(soa4) != sizeof(ex4))
     return 1;
   
-  for(int i=0;i<VEC_FLOAT_LENGTH;i++){
+  for(unsigned i=0;i<VEC_FLOAT_LENGTH;i++){
     aos3[i] = vec3(float(i*3+1), float(i*3+2), float(i*3+3));
     aos4[i] = vec4(float(i*4+1), float(i*4+2), float(i*4+3), float(i*4+4));
     ex3[0][i] = aos3[i].getX();
@@ -55,12 +55,12 @@ int main()
   memset(&aos3, 0, sizeof(aos3));
   memset(&aos4, 0, sizeof(aos4));
   
-  const float* p3 = (float*)ex3;
-  const float* p4 = (float*)ex4;
+  //const float* p3 = (float*)ex3;
+  //const float* p4 = (float*)ex4;
   
   convert(aos3, soa3);
   
-  for(int i=0;i<VEC_FLOAT_LENGTH;i++){
+  for(unsigned i=0;i<VEC_FLOAT_LENGTH;i++){
     if(aos3[i].getX() != float(i*3+1))
       return 1;
     if(aos3[i].getY() != float(i*3+2))
@@ -71,7 +71,7 @@ int main()
   
   convert(aos4, soa4);
   
-  for(int i=0;i<VEC_FLOAT_LENGTH;i++){
+  for(unsigned i=0;i<VEC_FLOAT_LENGTH;i++){
     if(aos4[i].getX() != float(i*4+1))
       return 1;
     if(aos4[i].getY() != float(i*4+2))
