@@ -3,7 +3,7 @@
 int main(void)
 {
 #if defined(__i386__)||defined(__i486__)||defined(__i586__) \
-    ||defined(__i686__)||defined(__x86__)
+    ||defined(__i686__)||defined(__x86__)||defined(_M_IX86)
   printf("x86");
   return 0;
   
@@ -12,6 +12,10 @@ int main(void)
   printf("x86_64");
   return 0;
   
+#elif defined(__arm__)
+  printf("arm");
+  return 0;
+
 #endif
   
   return 1;

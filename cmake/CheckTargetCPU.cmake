@@ -1,7 +1,7 @@
 #
 
 #
-file(GLOB testcpu_files "${CMAKE_MODULE_PATH}/*.cpu.cpp")
+file(GLOB testcpu_files "${CMAKE_MODULE_PATH}/*_cpu.cpp")
 
 #
 unset(TARGET_CPU_NAME)
