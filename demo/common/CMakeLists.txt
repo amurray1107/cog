@@ -6,5 +6,5 @@ file(GLOB_RECURSE c_files "*.c")
 
 set(e "cog_demo_common")
 add_library(${e} STATIC ${cpp_files} ${c_files})
-target_link_libraries(${e} cog ${GLUT_LIBRARY} ${OPENGL_LIBRARY})
+target_link_libraries(${e} cog ${GLUT_LIBRARY} ${OPENGL_LIBRARIES})
 
