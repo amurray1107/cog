@@ -26,8 +26,12 @@ function(add_demo)
   add_executable(${e} ${cpp_files})
   target_link_libraries(${e} cog cog_demo_common)
   
+  set_target_properties(${e} PROPERTIES DEBUG_POSTFIX "_d")
+  
   set(od "${CMAKE_SOURCE_DIR}/bin")
   set_target_properties(${e} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${od}")
+  set_target_properties(${e} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG "${od}")
+  set_target_properties(${e} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_RELEASE "${od}")
   
   #message("demo added: ${e}")
   #foreach(i ${cpp_files})
