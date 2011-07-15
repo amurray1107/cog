@@ -23,7 +23,7 @@ function(ScanAndAddExecutable prefix test)
     
     if(${test})
       message("Add Test: ${e}")
-      add_test(${e} ${e} WORKING_DIRECTORY ${p})
+      add_test(${e} "${e}" WORKING_DIRECTORY ${p})
     endif()
     
   endforeach(i)

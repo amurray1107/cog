@@ -27,9 +27,7 @@ function(add_demo)
   target_link_libraries(${e} cog cog_demo_common)
   
   set(od "${CMAKE_SOURCE_DIR}/bin")
-  set_target_properties(${e} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${od})
-  set_target_properties(${e} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG ${od})
-  set_target_properties(${e} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_RELEASE ${od})
+  set_target_properties(${e} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${od}")
   
   #message("demo added: ${e}")
   #foreach(i ${cpp_files})
