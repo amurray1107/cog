@@ -1,4 +1,5 @@
 #
+message("Check Target CPU...")
 
 #
 file(GLOB testcpu_files "${CMAKE_MODULE_PATH}/*_cpu.cpp")
@@ -8,6 +9,8 @@ unset(TARGET_CPU_NAME)
 
 #
 foreach(i ${testcpu_files})
+  message("Try Compile: ${i}")
+  
   set(bd "${CMAKE_BINARY_DIR}/cmake/cpu")
   try_run(run_result build_result ${bd} ${i} RUN_OUTPUT_VARIABLE output)
   
