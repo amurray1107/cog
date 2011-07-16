@@ -31,5 +31,5 @@ function(ScanAndAddExecutable prefix test)
 endfunction()
 
 #
-ScanAndAddExecutable("unit_test_" TRUE "cog")
+ScanAndAddExecutable("unit_test_" TRUE COG)
 
