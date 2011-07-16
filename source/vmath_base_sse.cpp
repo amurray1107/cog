@@ -1,6 +1,6 @@
 #include <cog/vmath_base.h>
 
-#ifdef __SSE__
+#ifdef __X86_SSE__
 
 namespace cog{
   const float _SINCOSF_CC0 = -0.0013602249f;

@@ -162,7 +162,7 @@ namespace cog{
 
 // MARK: SIMD op
 
-#ifdef __SSE__
+#ifdef __X86_SSE__
 #  include "vmath_base_sse.h"
 #endif
 

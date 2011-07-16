@@ -1,8 +1,8 @@
-#ifndef __SSE__
+#ifndef __X86_SSE__
 #  error _float_sse.h is included while SSE is not supported
 #endif
 
-#ifndef __SSE2__
+#ifndef __X86_SSE2__
 #  error _float_sse.h is included while SSE2 is not supported
 #endif
 
