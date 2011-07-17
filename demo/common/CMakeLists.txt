@@ -1,4 +1,4 @@
-project(cog_demo_framework)
+project(COGDEMOFWK)
 
 message("Configuring Demo Framework...")
 

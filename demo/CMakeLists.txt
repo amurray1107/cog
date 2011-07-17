@@ -15,14 +15,14 @@ endif()
 #
 add_subdirectory(common)
 
-#return()
-
 #
 function(add_demo)
   file(GLOB_RECURSE cpp_files "*.cpp")
   
   file(RELATIVE_PATH e ${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
   string(REGEX REPLACE "[/\\]" "_" e ${e})
+  
+  include_directories("${COGDEMOFWK_SOURCE_DIR}/include")
   
   add_executable(${e} ${cpp_files})
   target_link_libraries(${e} COGdemofwk)
