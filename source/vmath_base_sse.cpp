@@ -163,8 +163,8 @@ namespace cog{
   
 }
 
-#include <cog/vmath_const.h>
-#include <cog/vmath_vector.h>
+#include <COG/vmath_const.h>
+#include <COG/vmath_vector.h>
 
 namespace cog{
   

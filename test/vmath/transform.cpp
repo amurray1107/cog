@@ -27,11 +27,13 @@ int main()
   // Test: make_perspective
   {
     mat4 p = make_perspective(-1.0f, 1.0f, -1.0f, 1.0f, 5.0f, 50.0f);
+    p = p;
   }
   
   // Test: make_orthographic
   {
     mat4 p = make_orthographic(-1.0f, 1.0f, -1.0f, 1.0f, 5.0f, 50.0f);
+    p = p;
   }
   
   return 0;
