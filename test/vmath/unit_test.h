@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cog/cog.h>
+#include <COG/cog.h>
 
 namespace cog{
   

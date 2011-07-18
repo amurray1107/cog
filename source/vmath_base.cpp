@@ -1,4 +1,4 @@
-#include <cog/vmath_base.h>
+#include <COG/vmath_base.h>
 #include <math.h>
 
 namespace cog{

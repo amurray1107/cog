@@ -1,4 +1,3 @@
-#include <cog/cog.h>
 #include <demo_common.h>
 #include <demo_glut.h>
 #include <stdio.h>

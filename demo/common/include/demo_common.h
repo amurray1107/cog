@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cog/cog.h>
+#include <COG/cog.h>
 #include <GLEW/glew.h>
 
 typedef cog::basic_vector3<GLfloat> vec3;
