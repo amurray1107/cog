@@ -1,6 +1,6 @@
 namespace cog{
   
-  // 3D Transformation:
+  // Generate 3D Transform Matrix
   
   template<typename T>
   inline const basic_matrix3<T> make_rotate
@@ -32,6 +32,14 @@ namespace cog{
     const basic_vector3<T> c1 (z0, scale.getY(), z0);
     const basic_vector3<T> c2 (z0, z0, scale.getZ());
     return basic_matrix3<T>(c0, c1, c2);
+  }
+  
+  template<typename T>
+  inline const basic_matrix3<T> make_rotate
+  (const basic_vector3<T>& xaxis, const basic_vector3<T>& yaxis, 
+   const basic_vector3<T>& zaxis)
+  {
+    return transpose(basic_matrix3<T>(xaxis, yaxis, zaxis));
   }
   
   // Projection: 
@@ -75,6 +83,54 @@ namespace cog{
                                negate(mul(s_t_b, rcp_t_b)),
                                mul(s_f_n, rcp_n_f), p1);
     return basic_matrix4<T>(c0, c1, c2, c3);
+  }
+  
+  // Helper Function: rotate a vector
+  
+  template<typename T>
+  inline const basic_vector3<T> rotate
+  (const basic_matrix3<T>& r, const basic_vector3<T>& v)
+  {
+    return r * v;
+  }
+  
+  template<typename T>
+  inline const basic_vector3<T> rotate
+  (const basic_matrix4<T>& r, const basic_vector3<T>& v)
+  {
+    const basic_vector4<T> t = r * basic_vector4<T>(v, const_<T>::ZERO);
+    return basic_vector3<T>(t.getX(), t.getY(), t.getZ());
+  }
+  
+  template<typename T>
+  inline const basic_vector3<T> rotate
+  (const basic_quaternion<T>& r, const basic_vector3<T>& v)
+  {
+    return r * v;
+  }
+  
+  template<typename T>
+  inline const basic_vector3<T> rotate
+  (const basic_dualquat<T>& r, const basic_vector3<T>& v)
+  {
+    return rotate(r.getRotation(), v);
+  }
+  
+  // Helper Function: transform a vector
+  
+  template<typename T>
+  inline const basic_vector3<T> transform
+  (const basic_matrix4<T>& tfm, const basic_vector3<T>& v)
+  {
+    const basic_vector4<T> t = tfm * basic_vector4<T>(v, const_<T>::ONE);
+    return basic_vector3<T>(t.getX(), t.getY(), t.getZ());
+  }
+  
+  template<typename T>
+  inline const basic_vector3<T> transform
+  (const basic_dualquat<T>& tfm, const basic_vector3<T>& v)
+  {
+    return rotate(tfm.getRotation(), v) + tfm.getDisplacement();
   }
   
 }
