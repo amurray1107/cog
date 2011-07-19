@@ -5,16 +5,10 @@
 
 using namespace cog;
 
+#define ALIGNED COG_ALIGNED(128)
+
 typedef basic_vector3<vec_float> vfvec3;
 typedef basic_vector4<vec_float> vfvec4;
-
-#if defined(_MSC_VER)
-#  define ALIGNED __declspec(align(128))
-#elif defined(__GNUC__)
-#  define ALIGNED __attribute__((aligned(128)))
-#else
-#  define ALIGNED
-#endif
 
 int main()
 {

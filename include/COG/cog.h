@@ -1,5 +1,7 @@
 #pragma once
 
+#include "base_platform.h"
+
 // Vector Math
 #include "vmath_base.h"
 #include "vmath_const.h"
