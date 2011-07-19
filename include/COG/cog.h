@@ -1,6 +1,8 @@
 #pragma once
 
-#include "base_platform.h"
+#include "base_type.h"
+#include "base_atomic.h"
+#include "base_aligned.h"
 
 // Vector Math
 #include "vmath_base.h"
