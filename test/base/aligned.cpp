@@ -23,11 +23,11 @@ int main()
   if(sizeof(aligned16_type)!=16)
     return 1;
 
-  if(align_address(0, 16)!=0)
+  if(align_address((ptrdiff_t)0, 16)!=0)
     return 1;
-  if(align_address(10, 16)!=16)
+  if(align_address((ptrdiff_t)10, 16)!=16)
     return 1;
-  if(align_address(32, 16)!=32)
+  if(align_address((ptrdiff_t)32, 16)!=32)
     return 1;
 
   {
