@@ -2,6 +2,17 @@
 
 #include <cstddef>
 #include <climits>
+#include <cassert>
+
+////////////////////////////////////////////////////////////////////////////////
+
+#ifdef COG_ASSERT
+#  undef COG_ASSERT
+#endif
+
+#define COG_ASSERT(x) assert(x)
+
+////////////////////////////////////////////////////////////////////////////////
 
 namespace cog{
   
@@ -94,10 +105,10 @@ namespace cog{
   */
   
   // Size Type
-  typedef std::size_t Size;
+  using std::size_t;
   
   // PitDiff Type
-  typedef std::ptrdiff_t Offset;
+  using std::ptrdiff_t;
   
   // Single Float Type
   typedef float F32;
@@ -107,3 +118,4 @@ namespace cog{
   
 }
 
+////////////////////////////////////////////////////////////////////////////////

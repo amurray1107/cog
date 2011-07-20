@@ -1,5 +1,7 @@
 #pragma once
 
+#include "base_type.h"
+
 ////////////////////////////////////////////////////////////////////////////////
 // PACKED TYPE
 
@@ -49,3 +51,45 @@
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
+
+namespace cog{
+  
+  union pointer_union{
+    ptrdiff_t signed_ptr;
+    void* raw_ptr;
+    const void* const_raw_ptr;
+  };
+  
+  ///////
+  
+  template<typename P>
+  inline P _align_address(P addr, size_t alignment)
+  {
+    COG_ASSERT( alignment > 0 );
+    COG_ASSERT( (alignment & (alignment-1)) == 0 );
+    return (addr+alignment-1) & (alignment-1);
+  }
+  
+  inline ptrdiff_t align_address(ptrdiff_t addr, size_t alignment)
+  {
+    return _align_address(addr, alignment);
+  }
+  
+  inline void* align_address(void* addr, size_t alignment)
+  {
+    pointer_union u; u.raw_ptr = addr;
+    u.signed_ptr = _align_address(u.signed_ptr, alignment);
+    return u.raw_ptr;
+  }
+  
+  inline const void* align_address(const void* addr, size_t alignment)
+  {
+    pointer_union u; u.const_raw_ptr = addr;
+    u.signed_ptr = _align_address(u.signed_ptr, alignment);
+    return u.const_raw_ptr;
+  }
+  
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
