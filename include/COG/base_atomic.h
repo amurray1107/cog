@@ -2,6 +2,10 @@
 
 #include "base_type.h"
 
+#ifdef _MSC_VER
+#  include <intrin.h>
+#endif
+
 namespace cog{
   namespace atomic{
     

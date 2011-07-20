@@ -1,4 +1,7 @@
 #include <COG/vmath_base.h>
+#include <COG/vmath_const.h>
+#include <COG/vmath_vector.h>
+#include <COG/vmath_const2.h>
 
 #ifdef __X86_SSE__
 
@@ -162,9 +165,6 @@ namespace cog{
   }
   
 }
-
-#include <COG/vmath_const.h>
-#include <COG/vmath_vector.h>
 
 namespace cog{
   

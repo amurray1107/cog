@@ -13,7 +13,7 @@
 #  define COG_TYPE_PACKED(t) t __attribute__((__packed__))
 
 #elif defined(_MSC_VER)
-#  define COG_TYPE_PACKED(t) __declspec(align(1)) t
+#  define COG_TYPE_PACKED(t) t
 
 #endif
 
@@ -67,7 +67,7 @@ namespace cog{
   {
     COG_ASSERT( alignment > 0 );
     COG_ASSERT( (alignment & (alignment-1)) == 0 );
-    return (addr+alignment-1) & (alignment-1);
+    return (addr+alignment-1) & (~(alignment-1));
   }
   
   inline ptrdiff_t align_address(ptrdiff_t addr, size_t alignment)
