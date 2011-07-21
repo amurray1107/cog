@@ -130,36 +130,6 @@ namespace cog{
   
 }
 
-// MARK: some func
-
-namespace cog{
-  
-  template<typename V>
-  inline const V lerp(const V& v0, const V& v1, typename V::scalar_type s)
-  {
-    return v0 + ((v1-v0) * s);
-  }
-  
-  template<typename V>
-  inline typename V::scalar_type lengthSqr(const V& v)
-  {
-    return dot(v, v);
-  }
-  
-  template<typename V>
-  inline typename V::scalar_type length(const V& v)
-  {
-    return sqrt(lengthSqr(v));
-  }
-  
-  template<typename V>
-  inline const V normalize(const V& v)
-  {
-    return v * rsqrt(lengthSqr(v));
-  }
-  
-}
-
 // MARK: SIMD op
 
 #ifdef __X86_SSE__

@@ -279,6 +279,50 @@ namespace cog{
     return i - mul(const_<T>::two(), dot(n,i)) * n;
   }
   
+  template<typename T>
+  inline const basic_vector3<T> refract
+  (const basic_vector3<T>& i, const basic_vector3<T>& n, T eta)
+  {
+    const T d = dot(n, i);
+    T k = nmsub(d, d, const_<T>::one());
+    k = nmsub(k, mul(eta, eta), const_<T>::one());
+    const bool_<T> sel = bool_<T>::less(k, const_<T>::zero());
+    const basic_vector3<T> r = eta * i - madd(eta, d, sqrt(k)) * n;
+    return r * sel.select(const_<T>::one(), const_<T>::zero());
+  }
+  
   /////////////////////////////
+  
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+// MARK: some func
+
+namespace cog{
+  
+  template<typename V>
+  inline const V lerp(const V& v0, const V& v1, typename V::scalar_type s)
+  {
+    return v0 + ((v1-v0) * s);
+  }
+  
+  template<typename V>
+  inline typename V::scalar_type lengthSqr(const V& v)
+  {
+    return dot(v, v);
+  }
+  
+  template<typename V>
+  inline typename V::scalar_type length(const V& v)
+  {
+    return sqrt(lengthSqr(v));
+  }
+  
+  template<typename V>
+  inline const V normalize(const V& v)
+  {
+    return v * rsqrt(lengthSqr(v));
+  }
   
 }

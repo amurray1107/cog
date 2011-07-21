@@ -1,4 +1,5 @@
 #include <COG/vmath_base.h>
+#include <COG/vmath_bool.h>
 #include <COG/vmath_const.h>
 #include <COG/vmath_vector.h>
 #include <COG/vmath_const2.h>

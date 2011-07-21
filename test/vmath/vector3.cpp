@@ -148,5 +148,12 @@ int main()
       return 1;
   }
   
+  // Test: refract
+  for(float x=0.5f; x<=2.0f; x+=0.5f)
+    if(!_test(refract(vec3(0.0f, -1.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f), x), 
+              vec3(0.0f, -1.0f, 0.0f)))
+      return 1;
+  
+  
   return 0;
 }
