@@ -62,7 +62,7 @@ namespace cog{
     {
       const basic_vector3<T> cvp = cross(m_V, p);
       const basic_vector3<T> tp = cross(m_V, (cvp + m_W * p));
-      return p + const_<T>::TWO * tp;
+      return p + const_<T>::two() * tp;
     }
     
   private:
@@ -84,7 +84,7 @@ namespace cog{
   inline const basic_quaternion<T> make_quat
   (T radians, const basic_vector3<T>& v)
   {
-    const T a = mul(radians, const_<T>::RETWO);
+    const T a = mul(radians, const_<T>::half());
     const T c = cos(a);
     const T s = sin(a);
     return basic_quaternion<T>(v*s, c);

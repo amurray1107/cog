@@ -5,25 +5,25 @@ namespace cog{
     
     static const basic_vector3<T> xAxis()
     {
-      return basic_vector3<T>(const_<T>::ONE, const_<T>::ZERO, 
-                              const_<T>::ZERO);
+      return basic_vector3<T>(const_<T>::one(), const_<T>::zero(), 
+                              const_<T>::zero());
     }
     
     static const basic_vector3<T> yAxis()
     {
-      return basic_vector3<T>(const_<T>::ZERO, const_<T>::ONE, 
-                              const_<T>::ZERO);
+      return basic_vector3<T>(const_<T>::zero(), const_<T>::one(), 
+                              const_<T>::zero());
     }
     
     static const basic_vector3<T> zAxis()
     {
-      return basic_vector3<T>(const_<T>::ZERO, const_<T>::ZERO, 
-                              const_<T>::ONE);
+      return basic_vector3<T>(const_<T>::zero(), const_<T>::zero(), 
+                              const_<T>::one());
     }
     
     static const basic_vector3<T> zero()
     {
-      return basic_vector3<T>(const_<T>::ZERO);
+      return basic_vector3<T>(const_<T>::zero());
     }
     
   };
@@ -33,31 +33,31 @@ namespace cog{
     
     static const basic_vector4<T> xAxis()
     {
-      return basic_vector4<T>(const_<T>::ONE, const_<T>::ZERO, 
-                              const_<T>::ZERO, const_<T>::ZERO);
+      return basic_vector4<T>(const_<T>::one(), const_<T>::zero(), 
+                              const_<T>::zero(), const_<T>::zero());
     }
     
     static const basic_vector4<T> yAxis()
     {
-      return basic_vector4<T>(const_<T>::ZERO, const_<T>::ONE, 
-                              const_<T>::ZERO, const_<T>::ZERO);
+      return basic_vector4<T>(const_<T>::zero(), const_<T>::one(), 
+                              const_<T>::zero(), const_<T>::zero());
     }
     
     static const basic_vector4<T> zAxis()
     {
-      return basic_vector4<T>(const_<T>::ZERO, const_<T>::ZERO, 
-                              const_<T>::ONE, const_<T>::ZERO);
+      return basic_vector4<T>(const_<T>::zero(), const_<T>::zero(), 
+                              const_<T>::one(), const_<T>::zero());
     }
     
     static const basic_vector4<T> wAxis()
     {
-      return basic_vector4<T>(const_<T>::ZERO, const_<T>::ZERO, 
-                              const_<T>::ZERO, const_<T>::ONE);
+      return basic_vector4<T>(const_<T>::zero(), const_<T>::zero(), 
+                              const_<T>::zero(), const_<T>::one());
     }
     
     static const basic_vector4<T> zero()
     {
-      return basic_vector4<T>(const_<T>::ZERO);
+      return basic_vector4<T>(const_<T>::zero());
     }
     
   };
@@ -75,7 +75,7 @@ namespace cog{
     
     static const basic_matrix3<T> zero()
     {
-      return basic_matrix3<T>(const_<T>::ZERO);
+      return basic_matrix3<T>(const_<T>::zero());
     }
     
   };
@@ -94,7 +94,7 @@ namespace cog{
     
     static const basic_matrix4<T> zero()
     {
-      return basic_matrix4<T>(const_<T>::ZERO);
+      return basic_matrix4<T>(const_<T>::zero());
     }
     
   };
@@ -104,14 +104,14 @@ namespace cog{
     
     static const basic_quaternion<T> identity()
     {
-      const basic_vector3<T> zv(const_<T>::ZERO);
-      return basic_quaternion<T>(zv, const_<T>::ONE);
+      const basic_vector3<T> zv(const_<T>::zero());
+      return basic_quaternion<T>(zv, const_<T>::one());
     }
     
     static const basic_quaternion<T> zero()
     {
-      const basic_vector3<T> zv(const_<T>::ZERO);
-      return basic_quaternion<T>(zv, const_<T>::ZERO);
+      const basic_vector3<T> zv(const_<T>::zero());
+      return basic_quaternion<T>(zv, const_<T>::zero());
     }
     
   };

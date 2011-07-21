@@ -8,6 +8,7 @@
 
 // Vector Math
 #include "vmath_base.h"
+#include "vmath_bool.h"
 #include "vmath_const.h"
 #include "vmath_vector.h"
 #include "vmath_matrix.h"

@@ -63,13 +63,13 @@ namespace cog{
                             const basic_vector3<T>& displacement)
     :m_Q0(rotation)
     {
-      basic_quaternion<T> d(const_<T>::RETWO * displacement, const_<T>::ZERO);
+      basic_quaternion<T> d(const_<T>::half() * displacement, const_<T>::zero());
       m_Qe = d * rotation;
     }
     
     const basic_vector3<T> getDisplacement()const
     {
-      return const_<T>::TWO * (m_Qe * conjugate(m_Q0)).getV();
+      return const_<T>::two() * (m_Qe * conjugate(m_Q0)).getV();
     }
     
     const basic_quaternion<T> getRotation()const
