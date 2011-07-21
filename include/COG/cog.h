@@ -16,4 +16,9 @@
 #include "vmath_const2.h"
 #include "vmath_transform.h"
 
+// Geometry
+#include "geom_base.h"
+#include "geom_aabbox.h"
+#include "geom_frustum.h"
+
 ////////////////////////////////////////////////////////////////////////////////
