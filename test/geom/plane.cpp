@@ -36,6 +36,14 @@ int main()
     
   }
   
+  // Test: func
+  {
+    if(plane(vec4(1.0f, 0.0f, 0.0f, 1.0f)).func(vec3(1.0f, 2.0f, 3.0f))!=2.0f)
+      return 1;
+  }
+  
+  //
+  
   return 0;
 }
 

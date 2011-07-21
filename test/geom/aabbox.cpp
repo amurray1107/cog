@@ -29,6 +29,26 @@ int main()
        !_test(b0.getMaxVec(), b1.getMaxVec()))
       return 1;
     
+    aabbox b3(5.0f);
+    if(!_test(b3.getMinVec(), vec3(5.0f)) ||
+       !_test(b3.getMaxVec(), vec3(5.0f)))
+      return 1;
+    
+  }
+  
+  // Test: Insert
+  {
+    aabbox b0(0.0f);
+    
+    b0.join(vec3(1.0f));
+    if(!_test(b0.getMinVec(), vec3(0.0f)) || 
+       !_test(b0.getMaxVec(), vec3(1.0f)))
+      return 1;
+    
+    b0.join(vec3(2.0f, -1.0f, 0.0f));
+    if(!_test(b0.getMinVec(), vec3(0.0f, -1.0f, 0.0f)) || 
+       !_test(b0.getMaxVec(), vec3(2.0f, 1.0f, 1.0f)))
+      return 1;
   }
   
   return 0;

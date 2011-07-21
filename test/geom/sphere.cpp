@@ -30,6 +30,12 @@ int main()
       return 1;
   }
   
+  // Test: func
+  {
+    if(sphere(vec3(0.0f), 1.0f).func(vec3(3.0f, 4.0f, 0.0f))!=24.0f)
+      return 1;
+  }
+  
   return 0;
 }
 

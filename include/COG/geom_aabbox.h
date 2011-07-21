@@ -23,8 +23,12 @@ namespace cog{
       return *this;
     }
     
+    /////////
+    
     inline const basic_vector3<T>& getMinVec()const{ return m_MinVec; }
     inline const basic_vector3<T>& getMaxVec()const{ return m_MaxVec; }
+    
+    /////////
     
     inline explicit basic_aabbox
     (const basic_vector3<T>& minvec, const basic_vector3<T>& maxvec):
@@ -32,11 +36,29 @@ namespace cog{
     {
     }
     
+    inline explicit basic_aabbox(T s):
+    m_MinVec(s), m_MaxVec(s)
+    {
+    }
+    
+    /////////
+    
+    inline void join(const basic_vector3<T>& vec)
+    {
+      m_MinVec = min(m_MinVec, vec);
+      m_MaxVec = max(m_MaxVec, vec);
+    }
+    
   private:
     basic_vector3<T>  m_MinVec;
     basic_vector3<T>  m_MaxVec;
     
   };
+  
+  ///////////////
+  
+  
+  
   
 }
 
