@@ -11,6 +11,7 @@ int main()
 {
   mat4 m1 = make_perspective(-1.0f, 1.0f, -1.0f, 1.0f, 1.0f, 10.0f);
   mat4 m2 = make_orthographic(-1.0f, 1.0f, -1.0f, 1.0f, 1.0f, 10.0f);
+  mat4 m3 = make_orthographic(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f);
   
   // Test: Constructor
   {
@@ -30,26 +31,58 @@ int main()
   {
     frustum f2(m2);
     
-    if(f2.test_visible(vec3(0.0f, 0.0f, 5.0f))._getRawValue()!=true)
-      return false;
-    if(f2.test_visible(vec3(0.0f, 0.0f, 0.0f))._getRawValue()!=false)
-      return false;
-    if(f2.test_visible(vec3(0.0f, 0.0f, 20.0f))._getRawValue()!=false)
-      return false;
-    if(f2.test_visible(vec3(0.5f, 0.5f, 5.0f))._getRawValue()!=true)
-      return false;
+    if(f2.test_visible(vec3(0.0f, 0.0f, -5.0f))._getRawValue()!=true)
+      return 1;
+    if(f2.test_visible(vec3(0.5f, 0.5f, -5.0f))._getRawValue()!=true)
+      return 1;
+    if(f2.test_visible(vec3(1.5f, 0.0f, -5.0f))._getRawValue()!=false)
+      return 1;
+    if(f2.test_visible(vec3(-1.5f, 0.0f, -5.0f))._getRawValue()!=false)
+      return 1;
+    if(f2.test_visible(vec3(0.0f, 1.5f, -5.0f))._getRawValue()!=false)
+      return 1;
+    if(f2.test_visible(vec3(0.0f, -1.5f, -5.0f))._getRawValue()!=false)
+      return 1;
+    if(f2.test_visible(vec3(0.0f, 0.0f, -0.0f))._getRawValue()!=false)
+      return 1;
+    if(f2.test_visible(vec3(0.0f, 0.0f, -20.0f))._getRawValue()!=false)
+      return 1;
+    
   }
   
   // Test: test_visible (sphere)
   {
-    frustum f2(m2);
+    frustum f2(m3);
     
-    if(f2.test_visible(sphere(vec3(0.0f), 1.0f))._getRawValue()!=true)
-      return false;
-    if(f2.test_visible(sphere(vec3(1.0f), 1.0f))._getRawValue()!=true)
-      return false;
+    if(f2.test_visible(sphere(vec3(0.0f, 0.0f, 0.0f), 1.0f))._getRawValue()!=true)
+      return 1;
+
+    if(f2.test_visible(sphere(vec3(1.5f, 0.0f, 0.0f), 1.0f))._getRawValue()!=true)
+      return 1;
+    if(f2.test_visible(sphere(vec3(-1.5f, 0.0f, 0.0f), 1.0f))._getRawValue()!=true)
+      return 1;
+    if(f2.test_visible(sphere(vec3(0.0f, 1.5f, 0.0f), 1.0f))._getRawValue()!=true)
+      return 1;
+    if(f2.test_visible(sphere(vec3(0.0f, -1.5f, 0.0f), 1.0f))._getRawValue()!=true)
+      return 1;
+    if(f2.test_visible(sphere(vec3(0.0f, 0.0f, 1.5f), 1.0f))._getRawValue()!=true)
+      return 1;
+    if(f2.test_visible(sphere(vec3(0.0f, 0.0f, -1.5f), 1.0f))._getRawValue()!=true)
+      return 1;
+
+    if(f2.test_visible(sphere(vec3(3.0f, 0.0f, 0.0f), 1.0f))._getRawValue()!=false)
+      return 1;
+    if(f2.test_visible(sphere(vec3(-3.0f, 0.0f, 0.0f), 1.0f))._getRawValue()!=false)
+      return 1;
+    if(f2.test_visible(sphere(vec3(0.0f, 3.0f, 0.0f), 1.0f))._getRawValue()!=false)
+      return 1;
+    if(f2.test_visible(sphere(vec3(0.0f, -3.0f, 0.0f), 1.0f))._getRawValue()!=false)
+      return 1;
+    if(f2.test_visible(sphere(vec3(0.0f, 0.0f, 3.0f), 1.0f))._getRawValue()!=false)
+      return 1;
+    if(f2.test_visible(sphere(vec3(0.0f, 0.0f, -3.0f), 1.0f))._getRawValue()!=false)
+      return 1;
   }
-  
   
   return 0;
 }

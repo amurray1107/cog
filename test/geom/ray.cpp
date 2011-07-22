@@ -36,7 +36,7 @@ int main()
     r1 = normalize(r1);
     if(!_test(r1.getOrigin(), vec3(2.0f)) || 
        !_test(r1.getDirection(), normalize(vec3(1.0f))))
-      return 0;
+      return 1;
   }
   
   return 0;
