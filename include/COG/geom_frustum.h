@@ -38,6 +38,12 @@ namespace cog{
     inline const basic_plane<T>& getNear()const{ return m_Near; }
     inline const basic_plane<T>& getFar()const{ return m_Far; }
     
+    //////////
+    
+    inline const bool_<T> test_visible(const basic_vector3<T>& v)const;
+    inline const bool_<T> test_visible(const basic_sphere<T>& s)const;
+    inline const bool_<T> test_visible(const basic_ray<T>& r)const;
+    
   private:
     basic_plane<T>    m_Left;
     basic_plane<T>    m_Right;
@@ -59,12 +65,51 @@ namespace cog{
     const basic_vector4<T> n = mt.getColumn3() + mt.getColumn2();
     const basic_vector4<T> f = mt.getColumn3() - mt.getColumn2();
     
-    m_Left = basic_plane<T>(l);
-    m_Right = basic_plane<T>(r);
-    m_Bottom = basic_plane<T>(b);
-    m_Top = basic_plane<T>(t);
-    m_Near = basic_plane<T>(n);
-    m_Far = basic_plane<T>(f);
+    m_Left = normalize(basic_plane<T>(l));
+    m_Right = normalize(basic_plane<T>(r));
+    m_Bottom = normalize(basic_plane<T>(b));
+    m_Top = normalize(basic_plane<T>(t));
+    m_Near = normalize(basic_plane<T>(n));
+    m_Far = normalize(basic_plane<T>(f));
+  }
+  
+  template<typename T>
+  inline const bool_<T> basic_frustum<T>::test_visible
+  (const basic_vector3<T>& v)const
+  {
+    const T z = const_<T>::zero();
+    
+    bool_<T> b0 = bool_<T>::less_eq(z, getLeft().func(v));
+    b0 = b0 && bool_<T>::less_eq(z, getRight().func(v));
+    b0 = b0 && bool_<T>::less_eq(z, getBottom().func(v));
+    b0 = b0 && bool_<T>::less_eq(z, getTop().func(v));
+    b0 = b0 && bool_<T>::less_eq(z, getNear().func(v));
+    b0 = b0 && bool_<T>::less_eq(z, getFar().func(v));
+    
+    return b0;
+  }
+  
+  template<typename T>
+  inline const bool_<T> basic_frustum<T>::test_visible
+  (const basic_sphere<T>& s)const
+  {
+    const T r = s.getRadius();
+    
+    bool_<T> b0 = test_visible(s.getCenter());
+    b0 = b0 && bool_<T>::less(getLeft().func(s.getCenter()), r);
+    b0 = b0 && bool_<T>::less(getRight().func(s.getCenter()), r);
+    b0 = b0 && bool_<T>::less(getBottom().func(s.getCenter()), r);
+    b0 = b0 && bool_<T>::less(getTop().func(s.getCenter()), r);
+    b0 = b0 && bool_<T>::less(getNear().func(s.getCenter()), r);
+    b0 = b0 && bool_<T>::less(getFar().func(s.getCenter()), r);
+    
+    return b0;
+  }
+  
+  template<typename T>
+  inline const bool_<T> basic_frustum<T>::test_visible
+  (const basic_ray<T>& r)const
+  {
   }
   
 }

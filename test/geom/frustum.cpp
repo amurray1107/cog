@@ -5,6 +5,7 @@
 using namespace cog;
 
 typedef basic_frustum<float> frustum;
+typedef basic_sphere<float> sphere;
 
 int main()
 {
@@ -25,7 +26,30 @@ int main()
       return 1;
   }
   
-  // Test: 
+  // Test: test_visible (point)
+  {
+    frustum f2(m2);
+    
+    if(f2.test_visible(vec3(0.0f, 0.0f, 5.0f))._getRawValue()!=true)
+      return false;
+    if(f2.test_visible(vec3(0.0f, 0.0f, 0.0f))._getRawValue()!=false)
+      return false;
+    if(f2.test_visible(vec3(0.0f, 0.0f, 20.0f))._getRawValue()!=false)
+      return false;
+    if(f2.test_visible(vec3(0.5f, 0.5f, 5.0f))._getRawValue()!=true)
+      return false;
+  }
+  
+  // Test: test_visible (sphere)
+  {
+    frustum f2(m2);
+    
+    if(f2.test_visible(sphere(vec3(0.0f), 1.0f))._getRawValue()!=true)
+      return false;
+    if(f2.test_visible(sphere(vec3(1.0f), 1.0f))._getRawValue()!=true)
+      return false;
+  }
+  
   
   return 0;
 }

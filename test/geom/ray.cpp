@@ -30,7 +30,14 @@ int main()
       return 1;
   }
   
-  // Test: 
+  // Test: normalize
+  {
+    ray r1(vec3(2.0f), vec3(1.0f));
+    r1 = normalize(r1);
+    if(!_test(r1.getOrigin(), vec3(2.0f)) || 
+       !_test(r1.getDirection(), normalize(vec3(1.0f))))
+      return 0;
+  }
   
   return 0;
 }

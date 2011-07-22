@@ -97,6 +97,8 @@ namespace cog{
       return add(dot(m_Normal, v), m_Distance);
     }
     
+    /////////
+    
   private:
     basic_vector3<T>  m_Normal;
     T                 m_Distance;
@@ -155,6 +157,23 @@ namespace cog{
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+
+namespace cog{
+  
+  template<typename T>
+  inline const basic_plane<T> normalize(const basic_plane<T>& p)
+  {
+    T rl2 = rsqrt(lengthSqr(p.getNormal()));
+    return basic_plane<T>(p.getNormal() * rl2, mul(rl2, p.getDistance()));
+  }
+  
+  template<typename T>
+  inline const basic_ray<T> normalize(const basic_ray<T>& r)
+  {
+    return basic_ray<T>(r.getOrigin(), normalize(r.getDirection()));
+  }
+  
+}
 
 namespace cog{
   

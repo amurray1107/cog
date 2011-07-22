@@ -3,6 +3,7 @@
 using namespace cog;
 
 typedef basic_plane<float> plane;
+typedef basic_ray<float> ray;
 
 int main()
 {
@@ -42,7 +43,23 @@ int main()
       return 1;
   }
   
-  //
+  // Test: normalize
+  {
+    vec3 n0 = vec3(1.0f, 2.0f, 3.0f);
+    vec3 v0 = vec3(0.0f, 0.0f, 0.0f);
+    plane p0(n0, dot(n0, v0));
+    p0 = normalize(p0);
+    if(!_test(p0.getNormal(), normalize(n0)) ||
+       !_test(p0.getDistance(), dot(normalize(n0), v0)))
+      return 1;
+  }
+  
+  // Test: test_frontface (point)
+  {
+    plane p0 = normalize(plane(vec3(1.0f, 0.0f, 0.0f), 0.0f));
+    
+    
+  }
   
   return 0;
 }
