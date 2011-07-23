@@ -159,5 +159,23 @@ int main()
       return 1;
   }
   
+  // Test: slerp
+  {
+    for(F32 angle = 0.0f; angle <= PI-0.1f; angle += 0.5f){
+      const quat q0 = make_quat(0.0f, vec3(0.0f, 0.0f, 1.0f));
+      const quat q1 = make_quat(angle, vec3(0.0f, 0.0f, 1.0f));
+      
+      for(F32 t=0.0f; t<=1.0f; t+=0.1f){
+        const quat qt = slerp(q0, q1, t);
+        if(!_test(length(qt), 1.0f))
+          return 1;
+        if(!_test(qt * vec3(1.0f, 0.0f, 0.0f), 
+                  vec3(cos(angle*t), sin(angle*t), 0.0f)))
+          return 1;
+      }
+      
+    }
+  }
+  
   return 0;
 }

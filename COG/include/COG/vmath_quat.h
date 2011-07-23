@@ -142,5 +142,12 @@ namespace cog{
     return basic_quaternion<T>(v, w);
   }
   
+  template<typename T>
+  inline const basic_quaternion<T> slerp
+  (const basic_quaternion<T>& q0, const basic_quaternion<T>& q1, T s)
+  {
+    return _slerp<basic_quaternion<T>, T, true>(q0, q1, s);
+  }
+  
 }
 

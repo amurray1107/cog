@@ -164,5 +164,23 @@ int main()
       return 1;
   }
   
+  // Test: slerp
+  {
+    const F32 PI = 3.14159f;
+    for(F32 angle = 0.0f; angle <= PI-0.1f; angle += 0.1f){
+      const vec3 v0 = vec3(1.0f, 0.0f, 0.0f);
+      const vec3 v1 = vec3(cos(angle), sin(angle), 0.0f);
+      for(F32 t=0.0f; t<=1.0f; t+=0.1f){
+        const vec3 vt = slerp(v0, v1, t);
+        if(!_test(length(vt), 1.0f))
+          return 1;
+      }
+      if(!_test(slerp(v0, v1, 0.0f), v0))
+        return 1;
+      if(!_test(slerp(v0, v1, 1.0f), v1))
+        return 1;
+    }
+  }
+  
   return 0;
 }
