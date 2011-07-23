@@ -146,7 +146,24 @@ namespace cog{
   inline const basic_quaternion<T> slerp
   (const basic_quaternion<T>& q0, const basic_quaternion<T>& q1, T s)
   {
-    return _slerp<basic_quaternion<T>, T, true>(q0, q1, s);
+    T cosa = dot(q0, q1);
+    
+    const bool_<T> mask = bool_<T>::less(cosa, const_<T>::zero());
+    cosa = mask.select(cosa, negate(cosa));
+    const basic_quaternion<T> start = select(q0, -q0, mask);
+    
+    const T angle = acos(cosa);
+    const T rsia = recip(sin(angle));
+    
+    const T oms = sub(const_<T>::one(), s);
+    const T scale0 = mul(sin(mul(oms, angle)), rsia);
+    const T scale1 = mul(sin(mul(s, angle)), rsia);
+    
+    const basic_quaternion<T> result0 = start * scale0 + q1 * scale1;
+    const basic_quaternion<T> result1 = normalize(lerp(q0, q1, s));
+    
+    const bool_<T> sel = bool_<T>::less(const_<T>::_slerp_tol(), abs(cosa));
+    return select(result0, result1, sel);
   }
   
 }

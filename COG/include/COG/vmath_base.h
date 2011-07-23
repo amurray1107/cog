@@ -9,7 +9,7 @@
 namespace cog{
   
   // Properties of Single Precision Float Type
-  const F32 FLOAT_EPSILON = FLT_EPSILON;
+  const F32 FLOAT_EPSILON = 0.0001f;//FLT_EPSILON;
   const F32 FLOAT_MIN = FLT_MIN;
   const F32 FLOAT_MAX = FLT_MAX;
   

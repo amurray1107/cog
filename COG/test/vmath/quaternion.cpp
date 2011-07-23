@@ -1,6 +1,19 @@
 #include "unit_test.h"
+#include <stdio.h>
 
 using namespace cog;
+
+void printquat(const quat& qt)
+{
+  const float* fx = (float*)&qt;
+  printf("[%f, %f, %f, %f]\n", fx[0], fx[1], fx[2], fx[3]);
+}
+
+void printvec(const vec3& v)
+{
+  const float* fx = (float*)&v;
+  printf("(%f, %f, %f)\n", fx[0], fx[1], fx[2]);
+}
 
 int main()
 {
@@ -161,7 +174,7 @@ int main()
   
   // Test: slerp
   {
-    for(F32 angle = 0.0f; angle <= PI-0.1f; angle += 0.5f){
+    for(F32 angle = 0.0f; angle <= PI; angle += PI * 0.1f){
       const quat q0 = make_quat(0.0f, vec3(0.0f, 0.0f, 1.0f));
       const quat q1 = make_quat(angle, vec3(0.0f, 0.0f, 1.0f));
       
@@ -169,8 +182,11 @@ int main()
         const quat qt = slerp(q0, q1, t);
         if(!_test(length(qt), 1.0f))
           return 1;
-        if(!_test(qt * vec3(1.0f, 0.0f, 0.0f), 
-                  vec3(cos(angle*t), sin(angle*t), 0.0f)))
+        
+        const vec3 v0 = vec3(1.0f, 0.0f, 0.0f);
+        const vec3 v1 = vec3(cos(angle*t), sin(angle*t), 0.0f);
+        
+        if(!_test(qt * v0, v1))
           return 1;
       }
       

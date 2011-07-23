@@ -348,38 +348,24 @@ namespace cog{
     return v * rsqrt(lengthSqr(v));
   }
   
-  template<typename V, typename T, bool use_direction_refinement>
-  inline const V _slerp(const V& v0, const V& v1, T s)
-  {
-    V start;
-    T cosAngle;
-    bool_<T> mask;
-    
-    cosAngle = dot(v0, v1);
-    
-    if(use_direction_refinement){
-      mask = bool_<T>::less(cosAngle, const_<T>::zero());
-      cosAngle = mask.select(cosAngle, negate(cosAngle));
-      start = select(v0, -v0, mask);
-    }else
-      start = v0;
-    
-    const T angle = acos(cosAngle);
-    const T rsia = recip(sin(angle));
-    
-    mask = bool_<T>::less(cosAngle, const_<T>::_slerp_tol());
-    const T oms = sub(const_<T>::one(), s);
-    const T scale0 = mask.select(oms, mul(sin(mul(oms, angle)), rsia));
-    const T scale1 = mask.select(s, mul(sin(mul(s, angle)), rsia));
-    
-    return start * scale0 + v1 * scale1;
-  }
-  
   template<typename T>
   inline const basic_vector3<T> slerp
   (const basic_vector3<T>& v0, const basic_vector3<T>& v1, T s)
   {
-    return _slerp<basic_vector3<T>, T, false>(v0, v1, s);
+    const T cosAngle = dot(v0, v1);
+    const T angle = acos(cosAngle);
+    const T recipSinAngle = recip(sin(angle));
+    
+    const T oms = sub(const_<T>::one(), s);
+    const T scale0 = mul(sin(mul(oms, angle)), recipSinAngle);
+    const T scale1 = mul(sin(mul(s, angle)), recipSinAngle);
+    
+    const basic_vector3<T> result0 = v0 * scale0 + v1 * scale1;
+    const basic_vector3<T> result1 = normalize(lerp(v0, v1, s));
+    
+    bool_<T> sel;
+    sel = bool_<T>::less(const_<T>::_slerp_tol(), abs(cosAngle));
+    return select(result0, result1, sel);
   }
   
 }
