@@ -5,16 +5,16 @@
 namespace cog{
   
   inline bool _test
-  (vec_float x, 
-   vec_float (*f)(vec_float), 
+  (VF32 x, 
+   VF32 (*f)(VF32), 
    float (*g)(float) )
   {
-    vec_float result = f(x);
+    VF32 result = f(x);
     
     const float* inx = (float*)&x;
     const float* res = (float*)&result;
     
-    for(int i=0; i<(int)VEC_FLOAT_LENGTH; i++){
+    for(int i=0; i<(int)VF32_LENGTH; i++){
       float r = g(inx[i]);
       if( abs(res[i] - r) > FLOAT_ERROR_TOLERANCE )
         return false;
@@ -24,17 +24,17 @@ namespace cog{
   }
   
   inline bool _test
-  (vec_float x, vec_float y, 
-   vec_float (*f)(vec_float, vec_float), 
+  (VF32 x, VF32 y, 
+   VF32 (*f)(VF32, VF32), 
    float (*g)(float, float) )
   {
-    vec_float result = f(x, y);
+    VF32 result = f(x, y);
     
     const float* inx = (float*)&x;
     const float* iny = (float*)&y;
     const float* res = (float*)&result;
     
-    for(int i=0; i<(int)VEC_FLOAT_LENGTH; i++){
+    for(int i=0; i<(int)VF32_LENGTH; i++){
       float r = g(inx[i], iny[i]);
       if( abs(res[i] - r) > FLOAT_ERROR_TOLERANCE )
         return false;
@@ -44,18 +44,18 @@ namespace cog{
   }
   
   inline bool _test
-  (vec_float x, vec_float y, vec_float z, 
-   vec_float (*f)(vec_float, vec_float, vec_float), 
+  (VF32 x, VF32 y, VF32 z, 
+   VF32 (*f)(VF32, VF32, VF32), 
    float (*g)(float, float, float) )
   {
-    vec_float result = f(x, y, z);
+    VF32 result = f(x, y, z);
     
     const float* inx = (float*)&x;
     const float* iny = (float*)&y;
     const float* inz = (float*)&z;
     const float* res = (float*)&result;
     
-    for(int i=0; i<(int)VEC_FLOAT_LENGTH; i++){
+    for(int i=0; i<(int)VF32_LENGTH; i++){
       float r = g(inx[i], iny[i], inz[i]);
       if( abs(res[i] - r) > FLOAT_ERROR_TOLERANCE )
         return false;

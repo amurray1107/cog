@@ -2,7 +2,7 @@
 
 using namespace cog;
 
-const float PI = 3.141592653589793f;
+const F32 PI = 3.141592653589793f;
 
 int main()
 {

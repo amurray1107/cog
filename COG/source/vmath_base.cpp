@@ -3,32 +3,32 @@
 
 namespace cog{
   
-  float _sqrt(float x)
+  F32 _sqrt(F32 x)
   {
     return ::sqrtf(x);
   }
   
-  float floor(float x)
+  F32 floor(F32 x)
   {
     return ::floorf(x);
   }
   
-  float acos(float x)
+  F32 acos(F32 x)
   {
     return ::acosf(x);
   }
   
-  float sin(float x)
+  F32 sin(F32 x)
   {
     return ::sinf(x);
   }
   
-  float cos(float x)
+  F32 cos(F32 x)
   {
     return ::cosf(x);
   }
   
-  float tan(float x)
+  F32 tan(F32 x)
   {
     return ::tanf(x);
   }

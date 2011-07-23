@@ -7,21 +7,21 @@
 #ifdef __X86_SSE__
 
 namespace cog{
-  const float _SINCOSF_CC0 = -0.0013602249f;
-  const float _SINCOSF_CC1 =  0.0416566950f;
-  const float _SINCOSF_CC2 = -0.4999990225f;
-  const float _SINCOSF_SC0 = -0.0001950727f;
-  const float _SINCOSF_SC1 =  0.0083320758f;
-  const float _SINCOSF_SC2 = -0.1666665247f;
-  const float _SINCOSF_KC1 = 1.57079625129f;
-  const float _SINCOSF_KC2 = 7.54978995489e-8f;
+  const F32 _SINCOSF_CC0 = -0.0013602249f;
+  const F32 _SINCOSF_CC1 =  0.0416566950f;
+  const F32 _SINCOSF_CC2 = -0.4999990225f;
+  const F32 _SINCOSF_SC0 = -0.0001950727f;
+  const F32 _SINCOSF_SC1 =  0.0083320758f;
+  const F32 _SINCOSF_SC2 = -0.1666665247f;
+  const F32 _SINCOSF_KC1 = 1.57079625129f;
+  const F32 _SINCOSF_KC2 = 7.54978995489e-8f;
   
   inline __m128 _mm_signbit_ps(__m128 x)
   {
     return _i2f(_mm_srai_epi32(_f2i(x), 31));
   }
   
-  inline vec_float _fill(float x)
+  inline VF32 _fill(F32 x)
   {
     return _mm_set1_ps(x);
   }
@@ -30,7 +30,7 @@ namespace cog{
 
 namespace cog{
   
-  vec_float recip(vec_float x)
+  VF32 recip(VF32 x)
   {
     const __m128 one = _fill(1.0f);
     const __m128 y0 = _mm_rcp_ps(x);
@@ -39,7 +39,7 @@ namespace cog{
     return y;
   }
   
-  vec_float rsqrt(vec_float x)
+  VF32 rsqrt(VF32 x)
   {
     const __m128 y0 = _mm_rsqrt_ps(x);
     const __m128 y0x = mul(y0, x);
@@ -49,7 +49,7 @@ namespace cog{
     return y2madd;
   }
   
-  vec_float acos(vec_float x)
+  VF32 acos(VF32 x)
   {
     const __m128 select = _mm_signbit_ps(x);
     const __m128 xabs = abs(x);
@@ -82,7 +82,7 @@ namespace cog{
     return result;
   }
   
-  vec_float floor(vec_float x)
+  VF32 floor(VF32 x)
   {
     const __m128 xacmp = _i2f(_mm_set1_epi32(0x4b000000));
     const __m128 inrange = _mm_cmpgt_ps(xacmp, abs(x));
@@ -94,7 +94,7 @@ namespace cog{
     return _mm_sel_ps(truncated0, truncated1, resel);
   }
   
-  void _sincos(vec_float x, vec_float& s, vec_float& c)
+  void _sincos(VF32 x, VF32& s, VF32& c)
   {
     __m128 xl;
     __m128 ts, tc, sx, cx;
@@ -159,9 +159,9 @@ namespace cog{
     c = tc;
   }
   
-  vec_float mod(vec_float a, vec_float b)
+  VF32 mod(VF32 a, VF32 b)
   {
-    vec_float c = floor(div(a, b));
+    VF32 c = floor(div(a, b));
     return sub(a, mul(c, b));
   }
   
@@ -188,11 +188,11 @@ namespace cog{
   
   /////////////////////////////////////////////////
   
-  void convert(basic_vector3<vec_float>& soa, const basic_vector3<float>* aos)
+  void convert(basic_vector3<VF32>& soa, const basic_vector3<F32>* aos)
   {
-    __m128 a0 = _mm_load_ps((float*)aos);
-    __m128 a1 = _mm_load_ps((float*)aos+4);
-    __m128 a2 = _mm_load_ps((float*)aos+8);
+    __m128 a0 = _mm_load_ps((F32*)aos);
+    __m128 a1 = _mm_load_ps((F32*)aos+4);
+    __m128 a2 = _mm_load_ps((F32*)aos+8);
     
     __m128 m0 = _mm_shuffle_ps(a0, a1, _MM_SHUFFLE(1,0,2,1));
     __m128 m1 = _mm_shuffle_ps(a1, a2, _MM_SHUFFLE(2,1,3,2));
@@ -201,10 +201,10 @@ namespace cog{
     a1 = _mm_shuffle_ps(m0, m1, _MM_SHUFFLE(3,1,2,0));
     a2 = _mm_shuffle_ps(m0, a2, _MM_SHUFFLE(3,0,3,1));
     
-    soa = basic_vector3<vec_float>(a0, a1, a2);
+    soa = basic_vector3<VF32>(a0, a1, a2);
   }
   
-  void convert(basic_vector3<float>* aos, const basic_vector3<vec_float>& soa)
+  void convert(basic_vector3<F32>* aos, const basic_vector3<VF32>& soa)
   {
     __m128 a0 = soa.getX();
     __m128 a1 = soa.getY();
@@ -218,9 +218,9 @@ namespace cog{
     a1 = _mm_shuffle_ps(m2, m0, _MM_SHUFFLE(3,1,2,0));
     a2 = _mm_shuffle_ps(m1, m2, _MM_SHUFFLE(3,1,3,1));
     
-    _mm_store_ps((float*)aos, a0);
-    _mm_store_ps((float*)aos+4, a1);
-    _mm_store_ps((float*)aos+8, a2);
+    _mm_store_ps((F32*)aos, a0);
+    _mm_store_ps((F32*)aos+4, a1);
+    _mm_store_ps((F32*)aos+8, a2);
   }
   
   inline void _transpose(__m128& a0, __m128& a1, __m128& a2, __m128& a3)
@@ -238,19 +238,19 @@ namespace cog{
     a3 = _mm_unpackhi_ps(tmp2, tmp3);
   }
   
-  void convert(basic_vector4<vec_float>& soa, const basic_vector4<float>* aos)
+  void convert(basic_vector4<VF32>& soa, const basic_vector4<F32>* aos)
   {
-    __m128 a0 = _mm_load_ps((float*)aos);
-    __m128 a1 = _mm_load_ps((float*)aos+4);
-    __m128 a2 = _mm_load_ps((float*)aos+8);
-    __m128 a3 = _mm_load_ps((float*)aos+12);
+    __m128 a0 = _mm_load_ps((F32*)aos);
+    __m128 a1 = _mm_load_ps((F32*)aos+4);
+    __m128 a2 = _mm_load_ps((F32*)aos+8);
+    __m128 a3 = _mm_load_ps((F32*)aos+12);
     
     _transpose(a0, a1, a2, a3);
     
-    soa = basic_vector4<vec_float>(a0, a1, a2, a3);
+    soa = basic_vector4<VF32>(a0, a1, a2, a3);
   }
   
-  void convert(basic_vector4<float>* aos, const basic_vector4<vec_float>& soa)
+  void convert(basic_vector4<F32>* aos, const basic_vector4<VF32>& soa)
   {
     __m128 a0 = soa.getX();
     __m128 a1 = soa.getY();
@@ -259,10 +259,10 @@ namespace cog{
     
     _transpose(a0, a1, a2, a3);
     
-    _mm_store_ps((float*)aos, a0);
-    _mm_store_ps((float*)aos+4, a1);
-    _mm_store_ps((float*)aos+8, a2);
-    _mm_store_ps((float*)aos+12, a3);
+    _mm_store_ps((F32*)aos, a0);
+    _mm_store_ps((F32*)aos+4, a1);
+    _mm_store_ps((F32*)aos+8, a2);
+    _mm_store_ps((F32*)aos+12, a3);
   }
   
 }

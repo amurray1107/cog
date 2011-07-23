@@ -2,7 +2,7 @@
 
 using namespace cog;
 
-typedef basic_sphere<float> sphere;
+typedef basic_sphere<F32> sphere;
 
 int main()
 {

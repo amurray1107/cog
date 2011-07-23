@@ -2,7 +2,7 @@
 
 using namespace cog;
 
-typedef basic_aabbox<float> aabbox;
+typedef basic_aabbox<F32> aabbox;
 
 int main()
 {

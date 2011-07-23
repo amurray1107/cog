@@ -4,8 +4,8 @@
 
 using namespace cog;
 
-typedef basic_frustum<float> frustum;
-typedef basic_sphere<float> sphere;
+typedef basic_frustum<F32> frustum;
+typedef basic_sphere<F32> sphere;
 
 int main()
 {

@@ -2,7 +2,7 @@
 
 using namespace cog;
 
-typedef basic_ray<float> ray;
+typedef basic_ray<F32> ray;
 
 int main()
 {

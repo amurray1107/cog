@@ -5,9 +5,9 @@ namespace cog{
   };
   
   template<>
-  class bool_<float>{
+  class bool_<F32>{
   public:
-    typedef float T;
+    typedef F32 T;
     
   public:
     inline bool_()
@@ -90,4 +90,10 @@ namespace cog{
   };
   
 }
+
+// SIMD Version
+
+#ifdef __X86_SSE__
+#  include "vmath_bool_sse.h"
+#endif
 

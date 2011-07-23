@@ -12,13 +12,13 @@
 namespace cog{
   
   //
-  typedef __m128 vec_float;
+  typedef __m128 VF32;
   
   //
-  const size_t VEC_FLOAT_LENGTH = sizeof(vec_float)/sizeof(float);
+  const size_t VF32_LENGTH = sizeof(VF32)/sizeof(F32);
   
   //
-  inline vec_float splats(float s)
+  inline VF32 splats(F32 s)
   {
     return _mm_set1_ps(s);
   }
@@ -51,99 +51,99 @@ namespace cog{
   
   // @Public Member
   
-  inline vec_float abs(vec_float x)
+  inline VF32 abs(VF32 x)
   {
     return _mm_andnot_ps(_mm_set1_ps(-0.0f), x);
   }
   
-  inline vec_float negate(vec_float x)
+  inline VF32 negate(VF32 x)
   {
     return _mm_xor_ps(_mm_set1_ps(-0.0f), x);
   }
   
-  inline vec_float add(vec_float a, vec_float b)
+  inline VF32 add(VF32 a, VF32 b)
   {
     return _mm_add_ps(a, b);
   }
   
-  inline vec_float sub(vec_float a, vec_float b)
+  inline VF32 sub(VF32 a, VF32 b)
   {
     return _mm_sub_ps(a, b);
   }
   
-  inline vec_float mul(vec_float a, vec_float b)
+  inline VF32 mul(VF32 a, VF32 b)
   {
     return _mm_mul_ps(a, b);
   }
   
-  inline vec_float madd(vec_float a, vec_float b, vec_float c)
+  inline VF32 madd(VF32 a, VF32 b, VF32 c)
   {
     return _mm_add_ps(c, _mm_mul_ps(a, b));
   }
   
-  inline vec_float nmsub(vec_float a, vec_float b, vec_float c)
+  inline VF32 nmsub(VF32 a, VF32 b, VF32 c)
   {
     return _mm_sub_ps(c, _mm_mul_ps(a, b));
   }
   
-  inline vec_float min(vec_float a, vec_float b)
+  inline VF32 min(VF32 a, VF32 b)
   {
     return _mm_min_ps(a, b);
   }
   
-  inline vec_float max(vec_float a, vec_float b)
+  inline VF32 max(VF32 a, VF32 b)
   {
     return _mm_max_ps(a, b);
   }
   
   //
   
-  extern vec_float recip(vec_float x);
-  extern vec_float rsqrt(vec_float x);
-  extern vec_float acos(vec_float x);
-  extern vec_float floor(vec_float x);
-  extern vec_float mod(vec_float a, vec_float b);
+  extern VF32 recip(VF32 x);
+  extern VF32 rsqrt(VF32 x);
+  extern VF32 acos(VF32 x);
+  extern VF32 floor(VF32 x);
+  extern VF32 mod(VF32 a, VF32 b);
   
   //
   
-  inline vec_float div(vec_float a, vec_float b)
+  inline VF32 div(VF32 a, VF32 b)
   {
     return _mm_div_ps(a, b);
   }
   
-  inline vec_float sqrt(vec_float x)
+  inline VF32 sqrt(VF32 x)
   {
     return mul(x, rsqrt(x));
   }
   
-  inline vec_float sin(vec_float x)
+  inline VF32 sin(VF32 x)
   {
-    extern void _sincos(vec_float x, vec_float& s, vec_float& c);
+    extern void _sincos(VF32 x, VF32& s, VF32& c);
     
-    vec_float s, c;
+    VF32 s, c;
     _sincos(x, s, c);
     return s;
   }
   
-  inline vec_float cos(vec_float x)
+  inline VF32 cos(VF32 x)
   {
-    extern void _sincos(vec_float x, vec_float& s, vec_float& c);
+    extern void _sincos(VF32 x, VF32& s, VF32& c);
     
-    vec_float s, c;
+    VF32 s, c;
     _sincos(x, s, c);
     return c;
   }
   
-  inline vec_float tan(vec_float x)
+  inline VF32 tan(VF32 x)
   {
-    extern void _sincos(vec_float x, vec_float& s, vec_float& c);
+    extern void _sincos(VF32 x, VF32& s, VF32& c);
     
-    vec_float s, c;
+    VF32 s, c;
     _sincos(x, s, c);
     return div(s, c);
   }
   
-  inline vec_float copysign(vec_float x, vec_float y)
+  inline VF32 copysign(VF32 x, VF32 y)
   {
     return _mm_sel_ps(x, y, _mm_set1_ps(-0.0f));
   }

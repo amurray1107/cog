@@ -2,8 +2,8 @@
 
 using namespace cog;
 
-typedef bool_<float> boolf;
-typedef bool_<vec_float> boolf4;
+typedef bool_<F32> boolf;
+typedef bool_<VF32> boolvf;
 
 int main()
 {
@@ -11,22 +11,35 @@ int main()
   {
     boolf b0 = boolf::yes();
     boolf b1 = boolf::no();
+    boolvf vb0 = boolvf::yes();
+    boolvf vb1 = boolvf::no();
     
     if(b0._getRawValue() != true)
       return 1;
     if(b1._getRawValue() != false)
+      return 1;
+    if(!vb0._isSameAs(true))
+      return 1;
+    if(!vb1._isSameAs(false))
       return 1;
     
     b1 = b0;
     if(b1._getRawValue() != true)
       return 1;
     
+    vb1 = vb0;
+    if(!vb1._isSameAs(true))
+      return 1;
   }
   
   // Test: Not
   if(( !boolf::yes())._getRawValue() != false)
     return 1;
   if(( !boolf::no())._getRawValue() != true)
+    return 1;
+  if(!(!boolvf::yes())._isSameAs(false))
+    return 1;
+  if(!(!boolvf::no())._isSameAs(true))
     return 1;
   
   // Test: And

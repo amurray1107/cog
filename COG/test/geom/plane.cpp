@@ -2,8 +2,8 @@
 
 using namespace cog;
 
-typedef basic_plane<float> plane;
-typedef basic_ray<float> ray;
+typedef basic_plane<F32> plane;
+typedef basic_ray<F32> ray;
 
 int main()
 {

@@ -2,7 +2,7 @@
 
 using namespace cog;
 
-const float PI = 3.141592653589793f;
+const F32 PI = 3.141592653589793f;
 
 int main()
 {
@@ -95,9 +95,9 @@ int main()
     return 1;
   
   // Test: lerp
-  for(float x=-2.0f; x<=2.0f; x+=0.1f){
-    for(float y=-2.0f; y<=2.0f; y+=0.1f){
-      for(float t=0.0f; t<=1.0f; t+=0.1f){
+  for(F32 x=-2.0f; x<=2.0f; x+=0.1f){
+    for(F32 y=-2.0f; y<=2.0f; y+=0.1f){
+      for(F32 t=0.0f; t<=1.0f; t+=0.1f){
         if(!_test(lerp(mat3(x), mat3(y), t), mat3(x+(y-x)*t)))
           return 1;
       }

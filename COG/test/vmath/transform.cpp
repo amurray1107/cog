@@ -4,12 +4,12 @@ using namespace cog;
 
 int main()
 {
-  const float PI = 3.141592653589793f;
+  const F32 PI = 3.141592653589793f;
   
   // Test: make_rotate (radian + axis)
   {
     mat3 p;
-    for(float r= -PI; r<=PI; r+=PI*0.5f){
+    for(F32 r= -PI; r<=PI; r+=PI*0.5f){
       p = make_rotate(r, vec3(1.0f, 0.0f, 0.0f));
       p = make_rotate(r, vec3(0.0f, 1.0f, 0.0f));
       p = make_rotate(r, vec3(0.0f, 0.0f, 1.0f));
@@ -19,7 +19,7 @@ int main()
   // Test: make_scale
   {
     mat3 p;
-    for(float s=0.1f; s<=3.0f; s+=0.1f){
+    for(F32 s=0.1f; s<=3.0f; s+=0.1f){
       p = make_scale(vec3(s));
     }
   }

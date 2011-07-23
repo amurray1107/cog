@@ -108,9 +108,9 @@ int main()
     return 1;
   
   // Test: lerp
-  for(float x=-2.0f; x<=2.0f; x+=0.1f){
-    for(float y=-2.0f; y<=2.0f; y+=0.1f){
-      for(float t=0.0f; t<=1.0f; t+=0.1f){
+  for(F32 x=-2.0f; x<=2.0f; x+=0.1f){
+    for(F32 y=-2.0f; y<=2.0f; y+=0.1f){
+      for(F32 t=0.0f; t<=1.0f; t+=0.1f){
         if(!_test(lerp(mat4(x), mat4(y), t), mat4(x+(y-x)*t)))
           return 1;
       }
