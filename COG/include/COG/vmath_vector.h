@@ -293,6 +293,29 @@ namespace cog{
   
   /////////////////////////////
   
+  template<typename T>
+  inline const basic_vector3<T> select
+  (const basic_vector3<T>& v0, const basic_vector3<T>& v1, const bool_<T>& sel)
+  {
+    const T x = sel.select(v0.getX(), v1.getX());
+    const T y = sel.select(v0.getY(), v1.getY());
+    const T z = sel.select(v0.getZ(), v1.getZ());
+    return basic_vector3<T>(x, y, z);
+  }
+  
+  template<typename T>
+  inline const basic_vector4<T> select
+  (const basic_vector4<T>& v0, const basic_vector4<T>& v1, const bool_<T>& sel)
+  {
+    const T x = sel.select(v0.getX(), v1.getX());
+    const T y = sel.select(v0.getY(), v1.getY());
+    const T z = sel.select(v0.getZ(), v1.getZ());
+    const T w = sel.select(v0.getW(), v1.getW());
+    return basic_vector4<T>(x, y, z, w);
+  }
+  
+  /////////////////////////////
+  
 }
 
 ////////////////////////////////////////////////////////////////////////////////

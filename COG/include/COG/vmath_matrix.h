@@ -218,4 +218,25 @@ namespace cog{
   
   /////////////////////////////
   
+  template<typename T>
+  inline const basic_matrix3<T> select
+  (const basic_matrix3<T>& m0, const basic_matrix3<T>& m1, const bool_<T>& sel)
+  {
+    const basic_vector3<T> c0 = select(m0.getColumn0(), m1.getColumn0(), sel);
+    const basic_vector3<T> c1 = select(m0.getColumn1(), m1.getColumn1(), sel);
+    const basic_vector3<T> c2 = select(m0.getColumn2(), m1.getColumn2(), sel);
+    return basic_matrix3<T>(c0, c1, c2);
+  }
+  
+  template<typename T>
+  inline const basic_matrix4<T> select
+  (const basic_matrix4<T>& m0, const basic_matrix4<T>& m1, const bool_<T>& sel)
+  {
+    const basic_vector4<T> c0 = select(m0.getColumn0(), m1.getColumn0(), sel);
+    const basic_vector4<T> c1 = select(m0.getColumn1(), m1.getColumn1(), sel);
+    const basic_vector4<T> c2 = select(m0.getColumn2(), m1.getColumn2(), sel);
+    const basic_vector4<T> c3 = select(m0.getColumn3(), m1.getColumn3(), sel);
+    return basic_matrix4<T>(c0, c1, c2, c3);
+  }
+  
 }

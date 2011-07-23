@@ -154,6 +154,15 @@ int main()
               vec3(0.0f, -1.0f, 0.0f)))
       return 1;
   
+  // Test: select
+  {
+    const vec3 v0 = vec3(1.0f, 2.0f, 3.0f);
+    const vec3 v1 = vec3(-4.0f, -8.0f, -16.0f);
+    if(!_test(select(v0, v1, bool_<F32>::yes()), v1))
+      return 1;
+    if(!_test(select(v0, v1, bool_<F32>::no()), v0))
+      return 1;
+  }
   
   return 0;
 }

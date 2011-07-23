@@ -91,5 +91,14 @@ namespace cog{
     return dq * rsqrt(l2);
   }
   
+  template<typename T>
+  inline const basic_dualquat<T> select
+  (const basic_dualquat<T>& dq0, const basic_dualquat<T>& dq1, 
+   const bool_<T>& sel)
+  {
+    const basic_quaternion<T> q0 = select(dq0.getQ0(), dq1.getQ0(), sel);
+    const basic_quaternion<T> qe = select(dq0.getQe(), dq1.getQe(), sel);
+    return basic_dualquat<T>(q0, qe);
+  }
   
 }

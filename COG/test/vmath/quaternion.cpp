@@ -149,5 +149,15 @@ int main()
   if(!_test(inverse(identity)*identity, identity))
     return 1;
   
+  // Test: select
+  {
+    const quat q0 = quat(vec3(1.0f, 2.0f, 3.0f), 4.0f);
+    const quat q1 = quat(vec3(-4.0f, -8.0f, -16.0f), -32.0f);
+    if(!_test(select(q0, q1, bool_<F32>::yes()), q1))
+      return 1;
+    if(!_test(select(q0, q1, bool_<F32>::no()), q0))
+      return 1;
+  }
+  
   return 0;
 }

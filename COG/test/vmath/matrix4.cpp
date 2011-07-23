@@ -121,5 +121,11 @@ int main()
   if(!_test(transpose(identity), identity))
     return 1;
   
+  // Test: select
+  if(!_test(select(identity, -identity, bool_<F32>::yes()), -identity))
+    return 1;
+  if(!_test(select(identity, -identity, bool_<F32>::no()), identity))
+    return 1;
+  
   return 0;
 }

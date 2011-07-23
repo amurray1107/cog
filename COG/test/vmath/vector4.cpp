@@ -144,5 +144,15 @@ int main()
       return 1;
   }
   
+  // Test: select
+  {
+    const vec4 v0 = vec4(1.0f, 2.0f, 3.0f, 4.0f);
+    const vec4 v1 = vec4(-4.0f, -8.0f, -16.0f, -32.0f);
+    if(!_test(select(v0, v1, bool_<F32>::yes()), v1))
+      return 1;
+    if(!_test(select(v0, v1, bool_<F32>::no()), v0))
+      return 1;
+  }
+  
   return 0;
 }

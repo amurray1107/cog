@@ -132,5 +132,15 @@ namespace cog{
     return conjugate(q) * recip(lengthSqr(q));
   }
   
+  template<typename T>
+  inline const basic_quaternion<T> select
+  (const basic_quaternion<T>& q0, const basic_quaternion<T>& q1, 
+   const bool_<T>& sel)
+  {
+    const basic_vector3<T> v = select(q0.getV(), q1.getV(), sel);
+    const T w = sel.select(q0.getW(), q1.getW());
+    return basic_quaternion<T>(v, w);
+  }
+  
 }
 
