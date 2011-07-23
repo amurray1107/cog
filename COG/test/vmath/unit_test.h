@@ -4,10 +4,17 @@
 
 namespace cog{
   
-  inline bool _test
-  (VF32 x, 
-   VF32 (*f)(VF32), 
-   float (*g)(float) )
+  inline bool _test(VF32 x, float y)
+  {
+    const float* px = (float*)&x;
+    for(int i=0;i<(int)VF32_LENGTH; i++){
+      if( abs(px[i] - y) > FLOAT_ERROR_TOLERANCE )
+        return false;
+    }
+    return true;
+  }
+  
+  inline bool _test(VF32 x, VF32 (*f)(VF32), float (*g)(float) )
   {
     VF32 result = f(x);
     
@@ -24,9 +31,7 @@ namespace cog{
   }
   
   inline bool _test
-  (VF32 x, VF32 y, 
-   VF32 (*f)(VF32, VF32), 
-   float (*g)(float, float) )
+  (VF32 x, VF32 y, VF32 (*f)(VF32, VF32), float (*g)(float, float) )
   {
     VF32 result = f(x, y);
     
@@ -44,8 +49,7 @@ namespace cog{
   }
   
   inline bool _test
-  (VF32 x, VF32 y, VF32 z, 
-   VF32 (*f)(VF32, VF32, VF32), 
+  (VF32 x, VF32 y, VF32 z, VF32 (*f)(VF32, VF32, VF32), 
    float (*g)(float, float, float) )
   {
     VF32 result = f(x, y, z);

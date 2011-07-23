@@ -51,6 +51,14 @@ int main()
     return 1;
   if((boolf::no() && boolf::no())._getRawValue() != false)
     return 1;
+  if(!(boolvf::yes() && boolvf::yes())._isSameAs(true))
+    return 1;
+  if(!(boolvf::yes() && boolvf::no())._isSameAs(false))
+    return 1;
+  if(!(boolvf::no() && boolvf::yes())._isSameAs(false))
+    return 1;
+  if(!(boolvf::no() && boolvf::no())._isSameAs(false))
+    return 1;
   
   // Test: Or
   if((boolf::yes() || boolf::yes())._getRawValue() != true)
@@ -61,11 +69,23 @@ int main()
     return 1;
   if((boolf::no() || boolf::no())._getRawValue() != false)
     return 1;
+  if(!(boolvf::yes() || boolvf::yes())._isSameAs(true))
+    return 1;
+  if(!(boolvf::yes() || boolvf::no())._isSameAs(true))
+    return 1;
+  if(!(boolvf::no() || boolvf::yes())._isSameAs(true))
+    return 1;
+  if(!(boolvf::no() || boolvf::no())._isSameAs(false))
+    return 1;
   
   // Test: select
   if(boolf::yes().select(1.0f, -1.0f) != -1.0f)
     return 1;
   if(boolf::no().select(1.0f, -1.0f) != 1.0f)
+    return 1;
+  if(!_test(boolvf::yes().select(splats(1.0f), splats(-1.0f)), -1.0f))
+    return 1;
+  if(!_test(boolvf::no().select(splats(1.0f), splats(-1.0f)), 1.0f))
     return 1;
   
   // Test: less
@@ -75,6 +95,12 @@ int main()
     return 1;
   if(boolf::less(1.0f, -1.0f)._getRawValue() != false)
     return 1;
+  if(!boolvf::less(splats(1.0f), splats(2.0f))._isSameAs(true))
+    return 1;
+  if(!boolvf::less(splats(1.0f), splats(1.0f))._isSameAs(false))
+    return 1;
+  if(!boolvf::less(splats(1.0f), splats(-1.0f))._isSameAs(false))
+    return 1;
   
   // Test: less equal
   if(boolf::less_eq(1.0f, 2.0f)._getRawValue() != true)
@@ -83,6 +109,12 @@ int main()
     return 1;
   if(boolf::less_eq(1.0f, -1.0f)._getRawValue() != false)
     return 1;
+  if(!boolvf::less_eq(splats(1.0f), splats(2.0f))._isSameAs(true))
+    return 1;
+  if(!boolvf::less_eq(splats(1.0f), splats(1.0f))._isSameAs(true))
+    return 1;
+  if(!boolvf::less_eq(splats(1.0f), splats(-1.0f))._isSameAs(false))
+    return 1;
   
   // Test: equal
   if(boolf::equal(1.0f, 2.0f)._getRawValue() != false)
@@ -90,6 +122,12 @@ int main()
   if(boolf::equal(1.0f, 1.0f)._getRawValue() != true)
     return 1;
   if(boolf::equal(1.0f, -1.0f)._getRawValue() != false)
+    return 1;
+  if(!boolvf::equal(splats(1.0f), splats(2.0f))._isSameAs(false))
+    return 1;
+  if(!boolvf::equal(splats(1.0f), splats(1.0f))._isSameAs(true))
+    return 1;
+  if(!boolvf::equal(splats(1.0f), splats(-1.0f))._isSameAs(false))
     return 1;
   
   return 0;
