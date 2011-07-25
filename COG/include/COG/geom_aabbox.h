@@ -58,7 +58,7 @@ namespace cog{
   ///////////////
   
   template<typename T>
-  inline bool_<T> intersect
+  inline const bool_<T> intersect
   (const basic_aabbox<T>& a, const basic_aabbox<T>& b)
   {
     const basic_vector3<T> ami = a.getMinVec();
@@ -77,7 +77,7 @@ namespace cog{
   }
 
   template<typename T>
-  inline bool_<T> intersect
+  inline const bool_<T> intersect
   (const basic_aabbox<T>& aabb, const basic_sphere<T>& s)
   {
     basic_vector3<T> e;
@@ -88,7 +88,50 @@ namespace cog{
 
     return bool_<T>::less_eq(d, mul(s.getRadius(), s.getRadius()));
   }
+
+  template<typename T>
+  inline void _intersect
+  ( const basic_aabbox<T>& aabb, const basic_plane<T>& p,
+   bool_<T>& front, bool_<T>& back, bool_<T>& intersection)
+  {
+    basic_vector3<T> c, h;
+    c = const_<T>::half() * (aabb.getMaxVec() + aabb.getMinVec());
+    h = const_<T>::half() * (aabb.getMaxVec() - aabb.getMinVec());
+    
+    const T e = dot(h, abs(p.getNormal()));
+    const T s = p.func(c);
+
+    front = bool_<T>::less(const_<T>::zero(), sub(s, e));
+    back = bool_<T>::less(add(s, e), const_<T>::zero());
+    intersection = !(front||back);
+  }
   
-  
+  template<typename T>
+  inline const bool_<T> intersect
+  (const basic_plane<T>& p, const basic_aabbox<T>& aabb)
+  {
+    bool_<T> front, back, intersection;
+    _intersect(aabb, p, front, back, intersection);
+    return intersection;
+  }
+
+  template<typename T>
+  inline const bool_<T> frontface
+  (const basic_plane<T>& p, const basic_aabbox<T>& aabb)
+  {
+    bool_<T> front, back, intersection;
+    _intersect(aabb, p, front, back, intersection);
+    return front;
+  }
+
+  template<typename T>
+  inline const bool_<T> backface
+  (const basic_plane<T>& p, const basic_aabbox<T>& aabb)
+  {
+    bool_<T> front, back, intersection;
+    _intersect(aabb, p, front, back, intersection);
+    return back;
+  }
+
 }
 

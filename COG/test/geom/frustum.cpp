@@ -6,6 +6,7 @@ using namespace cog;
 
 typedef basic_frustum<F32> frustum;
 typedef basic_sphere<F32> sphere;
+typedef basic_aabbox<F32> aabbox;
 
 int main()
 {
@@ -84,6 +85,16 @@ int main()
       return 1;
   }
   
+  // Test: test_visible (aabb)
+  {
+    frustum f2(m3);
+
+    if(f2.test_visible(aabbox(vec3(-1.0f), vec3(1.0f)))._getRawValue()!=true)
+      return 1;
+    if(f2.test_visible(aabbox(vec3(2.0f), vec3(3.0f)))._getRawValue()!=false)
+      return 1;
+  }
+
   return 0;
 }
 

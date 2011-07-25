@@ -177,7 +177,16 @@ namespace cog{
 
 namespace cog{
   
-  
+  template<typename T>
+  inline const bool_<T> intersect
+  (const basic_sphere<T>& s0, const basic_sphere<T>& s1)
+  {
+    const T d2 = lengthSqr(s1.getCenter()-s0.getCenter());
+    const T rs = add(s1.getRadius(), s0.getRadius());
+    const T rs2 = mul(rs, rs);
+
+    return bool_<T>::less_eq(d2, rs2);
+  }
   
 }
 

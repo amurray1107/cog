@@ -36,6 +36,22 @@ int main()
       return 1;
   }
   
+  // Test: intersect (sphere)
+  {
+    if(intersect(sphere(vec3(0.0f), 1.0f), 
+                 sphere(vec3(0.0f), 1.0f))._getRawValue()!=true)
+      return 1;
+    if(intersect(sphere(vec3(0.0f), 1.0f), 
+                 sphere(vec3(0.0f), 3.0f))._getRawValue()!=true)
+      return 1;
+    if(intersect(sphere(vec3(0.0f), 3.0f), 
+                 sphere(vec3(0.0f), 1.0f))._getRawValue()!=true)
+      return 1;
+    if(intersect(sphere(vec3(1.0f), 1.0f), 
+                 sphere(vec3(0.0f), 1.5f))._getRawValue()!=true)
+      return 1;
+  }
+
   return 0;
 }
 

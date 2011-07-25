@@ -4,6 +4,7 @@ using namespace cog;
 
 typedef basic_aabbox<F32> aabbox;
 typedef basic_sphere<F32> sphere;
+typedef basic_plane<F32> plane;
 
 int main()
 {
@@ -77,6 +78,60 @@ int main()
     if(intersect(aabb, sphere(vec3(2.0f), 1.0f))._getRawValue()!=true)
       return 1;
     if(intersect(aabb, sphere(vec3(4.0f), 1.0f))._getRawValue()!=false)
+      return 1;
+  }
+
+  // Test: Intersect (AABB vs Plane)
+  {
+    const aabbox aabb(vec3(1.0f), vec3(2.0f));
+    plane p;
+
+    p = plane(vec3(1.0f, 0.0f, 0.0f), 0.0f);
+    if(intersect(p, aabb)._getRawValue()!=false)
+      return 1;
+
+    p = plane(vec3(1.0f, 0.0f, 0.0f), -1.5f);
+    if(intersect(p, aabb)._getRawValue()!=true)
+      return 1;
+
+    p = plane(vec3(1.0f, 0.0f, 0.0f), -3.0f);
+    if(intersect(p, aabb)._getRawValue()!=false)
+      return 1;
+  }
+
+  // Test: FrontFace (AABB vs Plane)
+  {
+    const aabbox aabb(vec3(1.0f), vec3(2.0f));
+    plane p;
+
+    p = plane(vec3(1.0f, 0.0f, 0.0f), 0.0f);
+    if(frontface(p, aabb)._getRawValue()!=true)
+      return 1;
+
+    p = plane(vec3(1.0f, 0.0f, 0.0f), -1.5f);
+    if(frontface(p, aabb)._getRawValue()!=false)
+      return 1;
+
+    p = plane(vec3(1.0f, 0.0f, 0.0f), -3.0f);
+    if(frontface(p, aabb)._getRawValue()!=false)
+      return 1;
+  }
+
+  // Test: Backface (AABB vs Plane)
+  {
+    const aabbox aabb(vec3(1.0f), vec3(2.0f));
+    plane p;
+
+    p = plane(vec3(1.0f, 0.0f, 0.0f), 0.0f);
+    if(backface(p, aabb)._getRawValue()!=false)
+      return 1;
+
+    p = plane(vec3(1.0f, 0.0f, 0.0f), -1.5f);
+    if(backface(p, aabb)._getRawValue()!=false)
+      return 1;
+
+    p = plane(vec3(1.0f, 0.0f, 0.0f), -3.0f);
+    if(backface(p, aabb)._getRawValue()!=true)
       return 1;
   }
   

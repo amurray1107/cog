@@ -42,7 +42,7 @@ namespace cog{
     
     inline const bool_<T> test_visible(const basic_vector3<T>& v)const;
     inline const bool_<T> test_visible(const basic_sphere<T>& s)const;
-    //inline const bool_<T> test_visible(const basic_ray<T>& r)const;
+    inline const bool_<T> test_visible(const basic_aabbox<T>& aabb)const;
     
   private:
     basic_plane<T>    m_Left;
@@ -115,6 +115,20 @@ namespace cog{
     b0 = b0 && bool_<T>::less_eq(nr, getFar().func(s.getCenter()));
     
     return b0;
+  }
+
+  template<typename T>
+  inline const bool_<T> basic_frustum<T>::test_visible
+  (const basic_aabbox<T>& aabb)const
+  {
+    bool_<T> b0 = backface(getLeft(), aabb);
+    b0 = b0 || backface(getRight(), aabb);
+    b0 = b0 || backface(getBottom(), aabb);
+    b0 = b0 || backface(getTop(), aabb);
+    b0 = b0 || backface(getNear(), aabb);
+    b0 = b0 || backface(getFar(), aabb);
+
+    return !b0;
   }
   
 }
