@@ -188,7 +188,8 @@ namespace cog{
   
   /////////////////////////////////////////////////
   
-  void convert(basic_vector3<VF32>& soa, const basic_vector3<F32>* aos)
+  void convert(basic_vector3<VF32>& soa, 
+               const basic_vector3<F32> aos[VF32_LENGTH])
   {
     __m128 a0 = _mm_load_ps((F32*)aos);
     __m128 a1 = _mm_load_ps((F32*)aos+4);
@@ -204,7 +205,8 @@ namespace cog{
     soa = basic_vector3<VF32>(a0, a1, a2);
   }
   
-  void convert(basic_vector3<F32>* aos, const basic_vector3<VF32>& soa)
+  void convert(basic_vector3<F32> aos[VF32_LENGTH], 
+               const basic_vector3<VF32>& soa)
   {
     __m128 a0 = soa.getX();
     __m128 a1 = soa.getY();
@@ -238,7 +240,8 @@ namespace cog{
     a3 = _mm_unpackhi_ps(tmp2, tmp3);
   }
   
-  void convert(basic_vector4<VF32>& soa, const basic_vector4<F32>* aos)
+  void convert(basic_vector4<VF32>& soa, 
+               const basic_vector4<F32> aos[VF32_LENGTH])
   {
     __m128 a0 = _mm_load_ps((F32*)aos);
     __m128 a1 = _mm_load_ps((F32*)aos+4);
@@ -250,7 +253,8 @@ namespace cog{
     soa = basic_vector4<VF32>(a0, a1, a2, a3);
   }
   
-  void convert(basic_vector4<F32>* aos, const basic_vector4<VF32>& soa)
+  void convert(basic_vector4<F32> aos[VF32_LENGTH], 
+               const basic_vector4<VF32>& soa)
   {
     __m128 a0 = soa.getX();
     __m128 a1 = soa.getY();

@@ -155,13 +155,17 @@ namespace cog{
 
 namespace cog{
   
-  void convert(basic_vector3<VF32>& soa, const basic_vector3<F32>* aos);
+  void convert(basic_vector3<VF32>& soa, 
+               const basic_vector3<F32> aos[VF32_LENGTH]);
   
-  void convert(basic_vector3<F32>* aos, const basic_vector3<VF32>& soa);
+  void convert(basic_vector3<F32> aos[VF32_LENGTH], 
+               const basic_vector3<VF32>& soa);
   
-  void convert(basic_vector4<VF32>& soa, const basic_vector4<F32>* aos);
+  void convert(basic_vector4<VF32>& soa, 
+               const basic_vector4<F32> aos[VF32_LENGTH]);
   
-  void convert(basic_vector4<F32>* aos, const basic_vector4<VF32>& soa);
+  void convert(basic_vector4<F32> aos[VF32_LENGTH], 
+               const basic_vector4<VF32>& soa);
   
 }
 

@@ -74,6 +74,34 @@ namespace cog{
     
     return c0 * xu0 + c1 * xu1 + c2 * xu2 + c3 * xu3;
   }
+
+  //////////////////////////////
+
+  template<typename T>
+  inline const basic_vector3<T> cubic_hermite_curve
+  (const basic_vector3<T> pt[2], const basic_vector3<T> tangent[2], T t)
+  {
+    const T ts = mul(t, t);
+    const T tc = mul(t, ts);
+    const T ts2 = add(ts, ts);
+    const T ts3 = add(ts, ts2);
+    const T tc2 = add(tc, tc);
+    const T c0 = add(sub(tc2, ts3), const_<T>::one());
+    const T c1 = add(sub(tc, ts2), t);
+    const T c2 = sub(tc, ts);
+    const T c3 = sub(ts3, tc2);
+    return c0 * pt[0] + c1 * tangent[0] + c2 * tangent[1] + c3 * pt[1];
+  }
+
+  template<typename T>
+  inline void kochanek_bartels_curve
+  (const basic_vector3<T> pt[3], T tension, T continuity, T bias, 
+   basic_vector3<T>& oInTangent, basic_vector3<T>& oOutTangent )
+  {
+    //const basic_vector3<T> d0 = 
+
+    
+  }
   
 }
 

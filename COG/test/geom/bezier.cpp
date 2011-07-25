@@ -103,6 +103,30 @@ int main()
       }
     
   }
-  
+
+  // Test: Cubic Hermite Curve
+  {
+    const vec3 input[] = { 
+      vec3(0.0f), 
+      vec3(2.0f, 0.0f, 0.0f) 
+    };
+    const vec3 tangent[] = {
+      vec3(1.0f, 1.0f, 0.0f), 
+      vec3(-1.0f, 1.0f, 0.0f)
+    };
+    
+    for(float t = 0.0f; t<=1.0f; t+=0.1f){
+      const vec3 vt = cubic_hermite_curve(input, tangent, t);
+      if(vt.getZ()!=0.0f)
+        return 1;
+    }
+  }
+
+  // Test: Kochanek Bartels Curve
+  {
+  }
+
+  // 
+
   return 0;
 }
