@@ -57,7 +57,37 @@ namespace cog{
   
   ///////////////
   
-  
+  template<typename T>
+  inline bool_<T> intersect
+  (const basic_aabbox<T>& a, const basic_aabbox<T>& b)
+  {
+    const basic_vector3<T> ami = a.getMinVec();
+    const basic_vector3<T> amx = a.getMaxVec();
+    const basic_vector3<T> bmi = b.getMinVec();
+    const basic_vector3<T> bmx = b.getMaxVec();
+
+    bool_<T> x0 = bool_<T>::less(bmx.getX(), ami.getX());
+    x0 = x0 || bool_<T>::less(amx.getX(), bmi.getX());
+    x0 = x0 || bool_<T>::less(bmx.getY(), ami.getY());
+    x0 = x0 || bool_<T>::less(amx.getY(), bmi.getY());
+    x0 = x0 || bool_<T>::less(bmx.getZ(), ami.getZ());
+    x0 = x0 || bool_<T>::less(amx.getZ(), bmi.getZ());
+
+    return !x0;
+  }
+
+  template<typename T>
+  inline bool_<T> intersect
+  (const basic_aabbox<T>& aabb, const basic_sphere<T>& s)
+  {
+    basic_vector3<T> e;
+    e = max(aabb.getMinVec() - s.getCenter(), const_vector3<T>::zero());
+    e = e + max(s.getCenter() - aabb.getMaxVec(), const_vector3<T>::zero());
+
+    const T d = dot(e, e);
+
+    return bool_<T>::less_eq(d, mul(s.getRadius(), s.getRadius()));
+  }
   
   
 }
