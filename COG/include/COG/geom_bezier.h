@@ -97,7 +97,8 @@ namespace cog{
 
   template<typename T>
   inline void kochanek_bartels_curve
-  (const basic_vector3<T> pt[3], T tension, T continuity, T bias, 
+  (const basic_vector3<T> pt[3], const T tpos[3], 
+   T tension, T continuity, T bias, 
    basic_vector3<T>& oInTangent, basic_vector3<T>& oOutTangent )
   {
     const basic_vector3<T> d0 = const_<T>::half() * (pt[1]-pt[0]);
@@ -114,8 +115,14 @@ namespace cog{
     const T c2 = mul(nt, mul(nc, nb));
     const T c3 = mul(nt, mul(pc, pb));
     
-    oInTangent = c0 * d1 + c1 * d0;
-    oOutTangent = c2 * d1 + c3 * d0;
+    const basic_vector3<T> vi = c0 * d1 + c1 * d0;
+    const basic_vector3<T> vo = c2 * d1 + c3 * d0;
+    const T dt0 = sub(tpos[1], tpos[0]);
+    const T dt1 = sub(tpos[2], tpos[1]);
+    const T dt01 = add(dt0, dt1);
+
+    oInTangent = vi * div(add(dt1, dt1), dt01);
+    oOutTangent = vo *  div(add(dt0, dt0), dt01);
   }
   
 }

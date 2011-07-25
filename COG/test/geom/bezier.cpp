@@ -1,4 +1,5 @@
 #include "../vmath/unit_test.h"
+#include <stdio.h>
 
 using namespace cog;
 
@@ -15,7 +16,7 @@ int main()
     
     for(float t = 0.0f; t<=1.0f; t+=0.1f){
       const vec3 vt = quadratic_bezier_curve(input, t);
-      if(vt.getZ()!=0.0f)
+      if(!_test(vt.getZ(), 0.0f))
         return 1;
     }
     
@@ -32,7 +33,7 @@ int main()
     
     for(float t = 0.0f; t<=1.0f; t+=0.1f){
       const vec3 vt = cubic_bezier_curve(input, t);
-      if(vt.getZ()!=0.0f)
+      if(!_test(vt.getZ(), 0.0f))
         return 1;
     }
   }
@@ -60,7 +61,7 @@ int main()
     for(float u = 0.0f; u<=1.0f; u+=0.1f)
       for(float v = 0.0f; v<=1.0f; v+=0.1f){
         const vec3 vt = quadratic_bezier_patch(input, u, v);
-        if(vt.getZ()!=0.0f)
+        if(!_test(vt.getZ(), 0.0f))
           return 1;
       }
     
@@ -98,7 +99,7 @@ int main()
     for(float u = 0.0f; u<=1.0f; u+=0.1f)
       for(float v = 0.0f; v<=1.0f; v+=0.1f){
         const vec3 vt = cubic_bezier_patch(input, u, v);
-        if(vt.getZ()!=0.0f)
+        if(!_test(vt.getZ(), 0.0f))
           return 1;
       }
     
@@ -117,7 +118,7 @@ int main()
     
     for(float t = 0.0f; t<=1.0f; t+=0.1f){
       const vec3 vt = cubic_hermite_curve(input, tangent, t);
-      if(vt.getZ()!=0.0f)
+      if(!_test(vt.getZ(), 0.0f))
         return 1;
     }
   }
@@ -130,14 +131,24 @@ int main()
       vec3(2.0f, 0.0f, 0.0f), 
       vec3(3.0f, 0.0f, 0.0f)
     };
-    vec3 tage[4];
+    const F32 tpos[] = { 0.0f, 1.0f, 2.0f, 3.0f };
+    vec3 tg[4];
     
-    kochanek_bartels_curve(input, 0.0f, 0.0f, 0.0f, tage[0], tage[1]);
-    kochanek_bartels_curve(input+1, 0.0f, 0.0f, 0.0f, tage[2], tage[3]);
+    kochanek_bartels_curve(input, tpos, 0.0f, 0.0f, 0.0f, tg[0], tg[1]);
+    kochanek_bartels_curve(input+1, tpos, 0.0f, 0.0f, 0.0f, tg[2], tg[3]);
+
+    //for(int i=0;i<4;i++)
+      //printf("%f %f %f\n", tg[i].getX(), tg[i].getY(), tg[i].getZ());
 
     for(float t = 0.0f; t<=1.0f; t+=0.1f){
-      const vec3 vt = cubic_hermite_curve(input+1, tage+1, t);
-      if(vt.getZ()!=0.0f)
+      const vec3 vt = cubic_hermite_curve(input+1, tg+1, t);
+      //printf("[%f %f %f]\n", vt.getX(), vt.getY(), vt.getZ());
+
+      if(!_test(vt.getX(), 1.0f+t))
+        return 1;
+      if(!_test(vt.getY(), 0.0f))
+        return 1;
+      if(!_test(vt.getZ(), 0.0f))
         return 1;
     }
   }
