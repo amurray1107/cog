@@ -86,10 +86,12 @@ namespace cog{
     const T ts2 = add(ts, ts);
     const T ts3 = add(ts, ts2);
     const T tc2 = add(tc, tc);
+
     const T c0 = add(sub(tc2, ts3), const_<T>::one());
     const T c1 = add(sub(tc, ts2), t);
     const T c2 = sub(tc, ts);
     const T c3 = sub(ts3, tc2);
+
     return c0 * pt[0] + c1 * tangent[0] + c2 * tangent[1] + c3 * pt[1];
   }
 
@@ -98,9 +100,22 @@ namespace cog{
   (const basic_vector3<T> pt[3], T tension, T continuity, T bias, 
    basic_vector3<T>& oInTangent, basic_vector3<T>& oOutTangent )
   {
-    //const basic_vector3<T> d0 = 
-
+    const basic_vector3<T> d0 = const_<T>::half() * (pt[1]-pt[0]);
+    const basic_vector3<T> d1 = const_<T>::half() * (pt[2]-pt[1]);
     
+    const T nt = sub(const_<T>::one(), tension);
+    const T pc = add(const_<T>::one(), continuity);
+    const T nc = sub(const_<T>::one(), continuity);
+    const T pb = add(const_<T>::one(), bias);
+    const T nb = sub(const_<T>::one(), bias);
+
+    const T c0 = mul(nt, mul(pc, nb));
+    const T c1 = mul(nt, mul(nc, pb));
+    const T c2 = mul(nt, mul(nc, nb));
+    const T c3 = mul(nt, mul(pc, pb));
+    
+    oInTangent = c0 * d1 + c1 * d0;
+    oOutTangent = c2 * d1 + c3 * d0;
   }
   
 }

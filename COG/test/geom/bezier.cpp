@@ -124,6 +124,22 @@ int main()
 
   // Test: Kochanek Bartels Curve
   {
+    const vec3 input[] = { 
+      vec3(0.0f), 
+      vec3(1.0f, 0.0f, 0.0f), 
+      vec3(2.0f, 0.0f, 0.0f), 
+      vec3(3.0f, 0.0f, 0.0f)
+    };
+    vec3 tage[4];
+    
+    kochanek_bartels_curve(input, 0.0f, 0.0f, 0.0f, tage[0], tage[1]);
+    kochanek_bartels_curve(input+1, 0.0f, 0.0f, 0.0f, tage[2], tage[3]);
+
+    for(float t = 0.0f; t<=1.0f; t+=0.1f){
+      const vec3 vt = cubic_hermite_curve(input+1, tage+1, t);
+      if(vt.getZ()!=0.0f)
+        return 1;
+    }
   }
 
   // 
