@@ -20,7 +20,15 @@ int main()
 
       if(!_test(vt.getZ(), 0.0f))
         return 1;
-      if(!(vd.getX()> 0.0f))
+      if(!_test(vt.getX(), 2.0f*t))
+        return 1;
+      if(!_test(vt.getY(), 20.0f*t*(1-t)))
+        return 1;
+      if(!_test(vd.getX(), 2.0f))
+        return 1;
+      if(!_test(vd.getY(), 20.0f*(1-2.0f*t)))
+        return 1;
+      if(!_test(vd.getZ(), 0.0f))
         return 1;
     }
     
@@ -41,7 +49,15 @@ int main()
 
       if(!_test(vt.getZ(), 0.0f))
         return 1;
-      if(!(vd.getX() > 0.0f))
+      if(!_test(vt.getX(), 3.0f*t))
+        return 1;
+      if(!_test(vt.getY(), 3.0f*t*(1-t)*(1-2.0f*t)*10.0f))
+        return 1;
+      if(!_test(vd.getX(), 3.0f))
+        return 1;
+      if(!_test(vd.getZ(), 0.0f))
+        return 1;
+      if(!_test(vd.getY(), 30.0f*(1.0f-6.0f*t+6.0f*t*t)))
         return 1;
 
     }
