@@ -38,7 +38,7 @@ namespace cog{
   
   template<typename T, typename V>
   inline const V _bezier_curve
-  (T u0, T u1, int orderu, const V *cpoints, T u)
+  (T u0, T u1, int orderu, const V *cpoints, T u, size_t stride)
   {
     COG_ASSERT(orderu > 0);
     COG_ASSERT(B_COEFF_MAX_N > orderu);
@@ -50,8 +50,9 @@ namespace cog{
     V ret = cpoints[0];
     
     for(int i=1; i<orderu; i++){
+      cpoints += stride;
       XPower *= uprime;
-      ret = oneMinusX * ret + (B_COEFF[orderu-1][i] * XPower) * cpoints[i];
+      ret = oneMinusX * ret + (B_COEFF[orderu-1][i] * XPower) * (*cpoints);
     }
     
     return ret;
@@ -68,11 +69,11 @@ namespace cog{
     const T oneMinusX = const_<T>::one() - uprime;
     T XPower = const_<T>::one();
     
-    V ret = _bezier_curve(v0, v1, orderv, cpoints, v);
+    V ret = _bezier_curve(v0, v1, orderv, cpoints, v, 1);
     
     for(int i=1; i<orderu; i++){
       cpoints += orderu;
-      const V xv = _bezier_curve(v0, v1, orderv, cpoints, v);
+      const V xv = _bezier_curve(v0, v1, orderv, cpoints, v, 1);
       XPower *= uprime;
       ret = oneMinusX * ret + (B_COEFF[orderu-1][i] * XPower) * xv;
     }
@@ -80,10 +81,24 @@ namespace cog{
     return ret;
   }
   
+  /////////////////////////////////////////////////////////////////////////////
+  /*
+  template<typename T, typename V>
+  inline const V _bezier_curve_der
+  (T u0, T u1, int orderu, const V *cpoints, T u, size_t stride)
+  {
+    COG_ASSERT(orderu > 1);
+    COG_ASSERT(B_COEFF_MAX_N > orderu);
+
+
+  }
+  */
+  /////////////////////////////////////////////////////////////////////////////
+
   const basic_vector3<F32> bezier_curve
   (F32 u0, F32 u1, int orderu, const basic_vector3<F32> *cpoints, F32 u)
   {
-    return _bezier_curve(u0, u1, orderu, cpoints, u);
+    return _bezier_curve(u0, u1, orderu, cpoints, u, 1);
   }
   
   const basic_vector3<F32> bezier_patch
