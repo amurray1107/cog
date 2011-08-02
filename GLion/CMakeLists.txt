@@ -49,3 +49,7 @@ target_link_libraries(GLion COG ${OPENGL_LIBRARIES})
 #
 set_target_properties(GLion PROPERTIES DEBUG_POSTFIX "_d")
 
+
+#
+add_subdirectory(test)
+

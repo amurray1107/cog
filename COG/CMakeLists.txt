@@ -14,6 +14,14 @@ file(GLOB_RECURSE pub_h_files "include/*.h")
 add_library(COG STATIC ${cpp_files} ${priv_h_files} ${pub_h_files})
 
 #
+unset(ext_libs)
+if(APPLE)
+  set(ext_libs objc "-framework Cocoa")
+endif()
+
+target_link_libraries(COG ${ext_libs})
+
+#
 set_target_properties(COG PROPERTIES DEBUG_POSTFIX "_d")
 
 # Unit Test

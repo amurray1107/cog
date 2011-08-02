@@ -1,6 +1,6 @@
 #pragma once
 
-#include "_Prerequistes.h"
+#include "_Prerequisites.h"
+#include "IRoot.h"
 
-
-
+//extern bool AppMain(GLion::IRoot* root);

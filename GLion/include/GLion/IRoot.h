@@ -1,25 +1,20 @@
 #pragma once
 
-#include "_Prerequistes.h"
+#include "_Prerequisites.h"
 
 namespace GLion{
-  
-  class IDisplay;
   
   class IRoot{
   public:
     
     //
-    
-    
-    //
-    IDisplay* initialize(const CStringParam& title);
+    virtual bool initialize(const CStringParam& title)=0;
     
     //
-    bool run();
+    virtual bool run()=0;
     
-    //
-    const char* getError()const;
+  public:
+    static IRoot& instance();
     
   };
   

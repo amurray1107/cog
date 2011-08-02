@@ -1,7 +1,4 @@
-#include <GLion/glion.h>
+#include <GLion/GLion.h>
 
-#if defined(__APPLE__)
-//#  import <Cocoa/Cocoa.h>
-#endif
-
-
+namespace GLion{
+}
