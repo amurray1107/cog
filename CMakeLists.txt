@@ -8,6 +8,7 @@ project(cog_project)
 # INCLUDE MODULES
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 include(CheckTargetCPU)
+include(CheckTargetOS)
 
 # ENABLE UNIT TEST
 enable_testing()
