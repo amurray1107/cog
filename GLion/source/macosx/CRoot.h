@@ -5,8 +5,15 @@
 #include <GLion/IRoot.h>
 
 //
-#import <Cocoa/Cocoa.h>
+#include <CoreFoundation/CoreFoundation.h>
 
+//
+class NSAutoreleasePool;
+class NSWindow;
+class NSOpenGLView;
+class NSOpenGLContext;
+
+//
 namespace GLion{
   
   class CRoot : public IRoot{
@@ -16,15 +23,27 @@ namespace GLion{
     
     virtual bool initialize(const CStringParam& title);
     
-    virtual bool run();
+    virtual bool run(void);
     
+  public:
+    
+    // Render One Frame
+    void _kickOneFrame();
+    
+    // Init SubSystems
+    void _initSystem();
+    
+    // Destroy SubSystems
+    void _destroySystem();
     
   private:
     NSAutoreleasePool* m_Pool;
-    NSApplication* m_App;
     
   public:
+    static CRoot* inst(){ return &sm_Instance; }
     static CRoot sm_Instance;
   };
   
 }
+
+

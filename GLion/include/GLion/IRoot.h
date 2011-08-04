@@ -11,7 +11,7 @@ namespace GLion{
     virtual bool initialize(const CStringParam& title)=0;
     
     //
-    virtual bool run()=0;
+    virtual bool run(void)=0;
     
   public:
     static IRoot& instance();
