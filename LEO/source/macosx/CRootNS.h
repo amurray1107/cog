@@ -12,7 +12,10 @@ namespace Leo{
   
   class CRootNS : public CRoot{
   public:
+    CRootNS();
+    virtual ~CRootNS();
     
+    virtual void run(void);
     
   private:
     
@@ -21,3 +24,12 @@ namespace Leo{
   
 }
 
+//
+@interface LeoAppDelegate : NSObject<NSApplicationDelegate>
+{
+  @private Leo::CRootNS* m_RootInstance;
+}
+
+- (id)initWithRoot:(Leo::CRootNS*)instance;
+
+@end
