@@ -28,13 +28,13 @@ set(srcfiles ${srcfiles} ${cpp_dep_files} ${prv_h_dep_files})
 set(srcfiles ${srcfiles} ${mm_dep_files})
 
 #
-add_library(LEO STATIC ${srcfiles})
+add_library(Leo STATIC ${srcfiles})
 
 #
-target_link_libraries(LEO COG ${OPENGL_LIBRARIES})
+target_link_libraries(Leo COG ${OPENGL_LIBRARIES})
 
 #
-set_target_properties(LEO PROPERTIES DEBUG_POSTFIX "_d")
+set_target_properties(Leo PROPERTIES DEBUG_POSTFIX "_d")
 
 #
 #add_subdirectory(test)

@@ -16,3 +16,6 @@ if(NOT DEFINED TARGET_OS_NAME)
   message(FATAL_ERROR "OS: Unknown")
 endif()
 
+#
+add_definitions("-D__${TARGET_OS_NAME}__")
+
