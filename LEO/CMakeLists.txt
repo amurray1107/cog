@@ -37,5 +37,5 @@ target_link_libraries(Leo COG ${OPENGL_LIBRARIES})
 set_target_properties(Leo PROPERTIES DEBUG_POSTFIX "_d")
 
 #
-#add_subdirectory(test)
+add_subdirectory(test)
 
