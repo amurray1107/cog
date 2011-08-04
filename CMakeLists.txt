@@ -16,6 +16,6 @@ enable_testing()
 # COG PROJECT
 add_subdirectory(COG)
 
-# GLion PROJECT
-add_subdirectory(GLion)
+# LEO PROJECT
+add_subdirectory(LEO)
 
