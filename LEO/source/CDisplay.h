@@ -13,12 +13,14 @@ namespace Leo{
     CDisplay();
     
     //
-    ~CDisplay();
+    virtual ~CDisplay();
     
   public: // Inherited From Super
     //
     
+    
   public: // Extended Methods
+    //
     
     
   private: // Private Fields

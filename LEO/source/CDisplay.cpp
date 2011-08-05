@@ -2,6 +2,19 @@
 
 namespace Leo{
   
+  CDisplay::CDisplay()
+  {
+  }
   
+  CDisplay::~CDisplay()
+  {
+  }
+  
+  //
+  
+  
+  
+  //
   
 }
+
