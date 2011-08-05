@@ -25,6 +25,9 @@ set(srcfiles ${srcfiles} ${mm_dep_files})
 add_library(Leo STATIC ${srcfiles})
 
 #
+include(CheckTargetOpenGL)
+
+#
 target_link_libraries(Leo COG ${TARGET_OPENGL_LIBS})
 
 #

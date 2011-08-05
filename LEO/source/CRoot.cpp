@@ -25,6 +25,14 @@ namespace Leo{
   //
   
   
+  //
+  //
+  namespace{
+    void _dummy()
+    {
+      CRoot a;
+    }
+  }
   
 }
 

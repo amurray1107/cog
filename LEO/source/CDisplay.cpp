@@ -16,5 +16,14 @@ namespace Leo{
   
   //
   
+  
+  // 
+  namespace{
+    void _dummy()
+    {
+      CDisplay a;
+    }
+  }
+  
 }
 

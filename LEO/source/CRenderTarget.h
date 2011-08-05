@@ -2,21 +2,18 @@
 
 //
 #include <Leo/_Prerequisites.h>
-#include <Leo/IDisplay.h>
-
-//
-#include "CRenderTarget.h"
+#include <Leo/IRenderTarget.h>
 
 //
 namespace Leo{
   
-  class CDisplay : public CRenderTarget, extends IDisplay{
+  class CRenderTarget : extends IRenderTarget{
   public: // Constructor & Destructor
     //
-    CDisplay();
+    CRenderTarget();
     
     //
-    virtual ~CDisplay();
+    virtual ~CRenderTarget();
     
   public: // Inherited From Interface
     //
@@ -26,10 +23,9 @@ namespace Leo{
     //
     
     
-  private: // Private Fields
+  public: // Private Fields
     
     
   };
   
 }
-

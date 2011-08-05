@@ -4,17 +4,12 @@
 #include "_Prerequisites.h"
 
 //
-#include "IRenderTarget.h"
-
-//
 namespace Leo{
   
-  class IDisplay : extends IRenderTarget{
+  class IRenderTarget{
   public:
-    
     
     
   };
   
 }
-

@@ -1,7 +1,9 @@
 #pragma once
 
+//
 #include "_Prerequisites.h"
 
+//
 namespace Leo{
   
   class IRoot{
@@ -17,7 +19,8 @@ namespace Leo{
   
 }
 
+//
 // Main Entrypoint of The App
 // User Defined
 extern int LeoMain(Leo::IRoot* root);
-
+//

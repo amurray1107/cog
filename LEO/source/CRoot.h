@@ -7,7 +7,7 @@
 //
 namespace Leo{
   
-  class CRoot : public IRoot{
+  class CRoot : extends IRoot{
   public: // Constructor & Destructor
     //
     CRoot();
@@ -15,7 +15,7 @@ namespace Leo{
     //
     virtual ~CRoot();
     
-  public: // Inherited From Super
+  public: // Inherited From Interface
     //
     virtual bool initialize();
     

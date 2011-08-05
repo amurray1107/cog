@@ -1,6 +1,5 @@
-#import <Cocoa/Cocoa.h>
-#include <Leo/Leo.h>
 #include "CRootNS.h"
+#include <Leo/Leo.h>
 
 //
 namespace
