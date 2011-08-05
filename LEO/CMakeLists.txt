@@ -3,12 +3,6 @@
 project(LEO)
 
 #
-find_package(OpenGL)
-if(NOT ${OPENGL_FOUND})
-  return()
-endif()
-
-#
 include_directories("${COG_SOURCE_DIR}/include")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
 
@@ -31,7 +25,7 @@ set(srcfiles ${srcfiles} ${mm_dep_files})
 add_library(Leo STATIC ${srcfiles})
 
 #
-target_link_libraries(Leo COG ${OPENGL_LIBRARIES})
+target_link_libraries(Leo COG ${TARGET_OPENGL_LIBS})
 
 #
 set_target_properties(Leo PROPERTIES DEBUG_POSTFIX "_d")
