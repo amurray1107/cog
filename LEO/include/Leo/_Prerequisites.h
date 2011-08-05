@@ -45,6 +45,8 @@ namespace Leo{
   class IRoot;
   class IRenderTarget;
   class IDisplay;
+  class IViewport;
+  class ICompositor;
   
 }
 
