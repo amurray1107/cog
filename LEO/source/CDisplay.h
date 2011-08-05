@@ -2,29 +2,23 @@
 
 //
 #include <Leo/_Prerequisites.h>
-#include <Leo/IRoot.h>
+#include <Leo/IDisplay.h>
 
 //
 namespace Leo{
   
-  class CRoot : public IRoot{
+  class CDisplay : public IDisplay{
   public: // Constructor & Destructor
     //
-    CRoot();
+    CDisplay();
     
     //
-    virtual ~CRoot();
+    ~CDisplay();
     
   public: // Inherited From Super
     //
-    virtual bool initialize();
-    
-    //
-    virtual void run();
     
   public: // Extended Methods
-    //
-    
     
     
   private: // Private Fields
@@ -33,3 +27,4 @@ namespace Leo{
   };
   
 }
+

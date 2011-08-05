@@ -11,13 +11,17 @@
 namespace Leo{
   
   class CRootNS : public CRoot{
-  public:
+  public: // Constructor & Destructor
     CRootNS();
     virtual ~CRootNS();
     
+  public: // Inherited From Super
     virtual void run(void);
     
-  private:
+  public: // Extended Methods
+    
+    
+  private: // Private Fields
     
     
   };
