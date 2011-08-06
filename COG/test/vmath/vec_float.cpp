@@ -152,16 +152,6 @@ int main(int argc, char* argv[])
     TEST1(tan, SPLATS( x));
   }
   
-  // Test: mod
-  for(F32 x=0.0f; x<10.0f; x+=0.01f){
-    for(F32 y=0.01f; y<10.0f; y+=0.1f){
-      TEST2(mod, SPLATS( x), SPLATS( y));
-      TEST2(mod, SPLATS(-x), SPLATS( y));
-      TEST2(mod, SPLATS( x), SPLATS(-y));
-      TEST2(mod, SPLATS(-x), SPLATS(-y));
-    }
-  }
-  
   // Test: copysign
   for(F32 x=0.0f; x<10.0f; x+=0.01f){
     for(F32 y=0.01f; y<10.0f; y+=0.1f){

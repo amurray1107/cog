@@ -102,7 +102,6 @@ namespace cog{
   extern VF32 rsqrt(VF32 x);
   extern VF32 acos(VF32 x);
   extern VF32 floor(VF32 x);
-  extern VF32 mod(VF32 a, VF32 b);
   
   //
   

@@ -159,12 +159,6 @@ namespace cog{
     c = tc;
   }
   
-  VF32 mod(VF32 a, VF32 b)
-  {
-    VF32 c = floor(div(a, b));
-    return sub(a, mul(c, b));
-  }
-  
 }
 
 namespace cog{

@@ -120,11 +120,6 @@ namespace cog{
   
   extern F32 tan(F32 x);
   
-  inline F32 mod(F32 a, F32 b)
-  {
-    return a - b * floor(a/b);
-  }
-  
   inline F32 copysign(F32 x, F32 y)
   {
     return _i2f((_f2i(x) & 0x7fffffff) | (_f2i(y) & 0x80000000));
